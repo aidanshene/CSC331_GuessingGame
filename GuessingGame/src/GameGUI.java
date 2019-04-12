@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
@@ -35,7 +36,9 @@ public class GameGUI extends JFrame {
 	public JCheckBoxMenuItem mostDifGame;
 	public JPanel panelA;
 	public JList<String> listGuesses;
+	public DefaultListModel<String> guesses;
 	public JList<String> listClues;
+	public DefaultListModel<String> clues;
 	public JTextField textGuess;
 	public JButton enter;
 	
@@ -82,14 +85,16 @@ public class GameGUI extends JFrame {
 		
 		panelA = new JPanel(); // Creates panelA and sets layout as GridBag, below sets constraints for formatting.
 		panelA.setLayout(new GridBagLayout()); 
-		listGuesses = new JList<String>(); 
+		guesses = new DefaultListModel<String>();
+		listGuesses = new JList<String>(guesses); 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.ipady = 300;
 		c.gridx = 0;
 		c.gridy = 0;
 		panelA.add(listGuesses, c);
 		
-		listClues = new JList<String>();
+		clues = new DefaultListModel<String>();
+		listClues = new JList<String>(clues);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 0;
@@ -104,6 +109,7 @@ public class GameGUI extends JFrame {
 		panelA.add(textGuess, c);
 		
 		enter = new JButton("Enter");
+		enter.addActionListener(new EnterListener());
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.5;
 		c.gridx = 1;
@@ -115,11 +121,16 @@ public class GameGUI extends JFrame {
 		setVisible(true);
 	}
 	
+	public class newPlayerListener implements ActionListener {
+		public void actionPerformed(ActionEvent ae) {
+			
+		}
+	}
+	
 	public class EnterListener implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
-			JTextField textGuess = (JTextField) ae.getSource();
 			String guess = textGuess.getText();
-			
+			clues.addElement(guesss);
 		}
 	}
 	
