@@ -1,0 +1,56 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Random;
+
+public class OneGame extends Game {
+	Integer maxNumber;
+	Integer guessNumber = 0;
+	Integer randNumber;
+	
+	public OneGame( int userMax ) {
+		this.maxNumber = userMax;
+		
+		// Random Number Generation
+		Random randInt = new Random();
+		this.randNumber = randInt.nextInt(this.maxNumber) + 1;
+	}
+	
+	public String getInput() {
+		String userInput = "Unfilled";
+		// Pulled from https://stackoverflow.com/questions/17538182/getting-keyboard-input
+		System.out.print("Please enter a numeric guess: ");
+		BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
+		try {
+			userInput = keyboard.readLine();
+		} catch (IOException e) {
+			System.out.println("Unable to get input from keyboard");
+		}
+		
+		return userInput;
+	}
+	
+	public Integer OneGameGuessingGame () {
+		
+		Boolean correct = false;
+		System.out.println("Welcome to the CLI for the guessing game ");
+		
+		while (!correct) {
+			this.guessNumber += 1;
+			Integer guess = Integer.parseInt(this.getInput());
+			
+			if (guess == this.randNumber ) {
+				System.out.println("Correct! The number was " + guess.toString() + ". You win!");
+				correct = true;
+			} else if ( guess < this.randNumber ) {
+				System.out.println("Incorrect: Guess higher next time!");
+			} else if (guess > this.randNumber ){
+				System.out.println("Incorrect: Guess lower next time!");
+			}
+		}
+		
+		return this.guessNumber;
+	}
+	
+	
+}
