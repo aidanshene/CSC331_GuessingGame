@@ -1,6 +1,5 @@
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,6 +11,7 @@ import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -42,9 +42,11 @@ public class GameGUI extends JFrame {
 	public JTextField textGuess;
 	public JButton enter;
 	
+	public OtherGame currentGame;
+	public Player currentPlayer;
+	
 	public GameGUI(String title) {
 		super(title);
-		setLayout(new GridLayout());
 		c = new GridBagConstraints();
 		setSize(500, 500);
 		setLocation(500, 500);
@@ -88,10 +90,10 @@ public class GameGUI extends JFrame {
 		guesses = new DefaultListModel<String>();
 		listGuesses = new JList<String>(guesses); 
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.ipady = 300;
-		c.gridx = 0;
-		c.gridy = 0;
-		panelA.add(listGuesses, c);
+		c.ipady = 300; // Sets height value constraint
+		c.gridx = 0; // Position on grid in x direction
+		c.gridy = 0; // Position on grid in y direction
+		panelA.add(listGuesses, c); // Adds listGuesses to panelA, adhering to the constraints of the GridBag
 		
 		clues = new DefaultListModel<String>();
 		listClues = new JList<String>(clues);
@@ -102,7 +104,7 @@ public class GameGUI extends JFrame {
 		
 		textGuess = new JTextField();
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.ipady = 0;
+		c.ipady = 0; // sets height value constraint
 		c.weightx = 0.5;
 		c.gridx = 0;
 		c.gridy = 1;
@@ -115,10 +117,36 @@ public class GameGUI extends JFrame {
 		c.gridx = 1;
 		c.gridy = 1;
 		panelA.add(enter, c); // End of GridBag formatting.
+		
+		String initName = JOptionPane.showInputDialog("Enter player name:"); // Prompts user for a player name before starting the game.
+		currentPlayer = new Player(initName);   
 	
 		add(panelA);
 		setJMenuBar(mainMenuBar);
 		setVisible(true);
+	}
+	
+	public class newOtherGameListener implements ActionListener { // Action listener for New Game -> Level 2-5.
+		public void actionPerformed(ActionEvent ae) {
+			if(ae.getSource() == lvlTwo) {
+				currentGame = new OtherGame(2);
+				currentPlayer.addOtherGame(currentGame);
+			}
+			else if(ae.getSource() == lvlThree) {
+				currentGame = new OtherGame(3);
+				currentPlayer.addOtherGame(currentGame);
+			}
+			else if(ae.getSource() == lvlFour) {
+				currentGame = new OtherGame(4);
+				currentPlayer.addOtherGame(currentGame);
+			}
+			else if(ae.getSource() == lvlFive) {
+				currentGame = new OtherGame(5);
+				currentPlayer.addOtherGame(currentGame);
+			}
+			guesses.clear();
+			clues.clear();
+		}
 	}
 	
 	public class newPlayerListener implements ActionListener {
@@ -127,10 +155,12 @@ public class GameGUI extends JFrame {
 		}
 	}
 	
-	public class EnterListener implements ActionListener {
+	public class EnterListener implements ActionListener { // Action listener for the Enter button.
 		public void actionPerformed(ActionEvent ae) {
 			String guess = textGuess.getText();
-			clues.addElement(guesss);
+			String clue = currentGame.checkValue(guess);
+			guesses.addElement(guess);
+			clues.addElement(clue);
 		}
 	}
 	
