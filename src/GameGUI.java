@@ -67,13 +67,21 @@ public class GameGUI extends JFrame {
 		menuNew.add(clear);
 		lvlOne = new JMenuItem("Level 1");
 		subMenuNewGame.add(lvlOne);
+		
 		lvlTwo = new JMenuItem("Level 2");
+		lvlTwo.addActionListener(new newOtherGameListener());
 		subMenuNewGame.add(lvlTwo);
+		
 		lvlThree = new JMenuItem("Level 3");
+		lvlThree.addActionListener(new newOtherGameListener());
 		subMenuNewGame.add(lvlThree);
+		
 		lvlFour = new JMenuItem("Level 4");
+		lvlFour.addActionListener(new newOtherGameListener());
 		subMenuNewGame.add(lvlFour);
+		
 		lvlFive = new JMenuItem("Level 5");
+		lvlFive.addActionListener(new newOtherGameListener());
 		subMenuNewGame.add(lvlFive);
 		
 		time = new JCheckBoxMenuItem("Time"); // Creates the menu and menu items within "Statistics."
@@ -163,6 +171,10 @@ public class GameGUI extends JFrame {
 			clues.addElement(clue);
 		}
 	}
+	
+	public static void main(String[] args) {
+		new GameGUI("Numbers Game");
+	}	
 }
 
 	
