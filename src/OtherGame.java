@@ -2,13 +2,13 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.StringTokenizer;
 
-public class OtherGame implements IGame{
+public class otherGame implements IGame{
 	
 	ArrayList<Integer> answer = new ArrayList<Integer>();
 	
-	public OtherGame(int level) {
+	public otherGame(int level) {
 		
-		for(int i=0; i < level; i++) {
+		for(int i=0; i<level; i++) {
 			
 			Random randNumGen = new Random();
 			
@@ -42,6 +42,7 @@ public class OtherGame implements IGame{
 		
 		while(i != max) {
 
+			
 			String guess = token.nextToken();
 			String actual = answer.get(i).toString();
 			
@@ -74,7 +75,7 @@ public class OtherGame implements IGame{
 			System.out.println(numberRight);
 			System.out.println(positionRight);
 			
-			returnString += " (" + numberRight + ","+ positionRight + ")";
+			returnString += " (" + numberRight + ", "+ positionRight + ")";
 			
 			return returnString;
 		
