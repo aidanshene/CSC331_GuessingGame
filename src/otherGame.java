@@ -1,12 +1,21 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Random;
 import java.util.StringTokenizer;
 
-public class OtherGame implements IGame{
+public class OtherGame extends Game implements IGame{
+	//Guesses will be used in statistics
+	int guesses;
+	
+	String clue;	
+	
+	int lvl;
 	
 	ArrayList<Integer> answer = new ArrayList<Integer>();
 	
 	public OtherGame(int level) {
+		
+		lvl = level;
 		
 		for(int i=0; i<level; i++) {
 			
@@ -38,7 +47,7 @@ public class OtherGame implements IGame{
 		
 		int max = token.countTokens();
 		
-		String returnString = input;
+		String returnString = "(" + input + ")";
 		
 		while(i != max) {
 
@@ -48,7 +57,7 @@ public class OtherGame implements IGame{
 			
 			i++;
 			
-			System.out.println("guess " + guess + "\t actual " + actual);
+//			System.out.println("guess " + guess + "\t actual " + actual);
 
 			
 			Integer guessInt = 0;
@@ -59,23 +68,27 @@ public class OtherGame implements IGame{
 				// I'm running this for loop because it could have the number more than once and it should
 				// count that for more than 1 appearance of the number
 				
-				for(int num : answer) {
-					if (num == guessInt) {
-						numberRight ++;
-					}
-				}		
+
+				numberRight ++;
+					
 			}
 				
 			if (guess.contentEquals(actual)) { //this checks the guess with the direct position it came in
 				positionRight ++;
 			}
 				continue;
+				
 			}
 			
-			System.out.println(numberRight);
-			System.out.println(positionRight);
+//			System.out.println(numberRight);
+//			System.out.println(positionRight);
+		
+		
+			clue = "("+numberRight+","+positionRight+")";
+			returnString += " " + clue;
 			
-			returnString += " (" + numberRight + ", "+ positionRight + ")";
+			
+			guesses++;
 			
 			return returnString;
 		
@@ -87,9 +100,39 @@ public class OtherGame implements IGame{
 		
 	}
 	
+	
+	public boolean gameOver() {
+		
+		String check = "("+ lvl +"," + lvl+")";
+		
+		if(clue.contentEquals(check)) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
+		OtherGame test = new OtherGame(3);
+		
+		while (true){
+			
+			Scanner input = new Scanner(System.in);
+				
+			String guess = input.nextLine();
+			
+			System.out.println(test.checkValue(guess));
+		
+			System.out.println(test.clue);
+			
+			if(test.gameOver()) {
+				
+				System.out.println(test.guesses);
+				break;
+			}
+		}
 		
 	
 

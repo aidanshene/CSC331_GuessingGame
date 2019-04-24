@@ -2,6 +2,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -26,6 +27,7 @@ public class GameGUI extends JFrame {
 	
 	public OtherGame currentGame;
 	public Player currentPlayer;
+	public ArrayList<Player> playerList;
 	
 	public GameGUI(String title) {
 		super(title);
@@ -34,15 +36,21 @@ public class GameGUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		createDisplay();
 		
+		playerList = new ArrayList<Player>();
 		JTextField name = new JTextField();
 		String[] levels = {"Level 1", "Level 2", "Level 3", "Level 4", "Level 5"};
 		JComboBox<String> lvl = new JComboBox<String>(levels);
 		Object[] fields = {"Player Name:", name, "Level:", lvl};
 
-		JOptionPane.showConfirmDialog(null, fields, "Enter name & select difficulty", JOptionPane.OK_CANCEL_OPTION); // Prompts user for a player name before starting the game.
-		currentPlayer = new Player(name.getText());
-		currentGame = new OtherGame((int)lvl.getSelectedItem().toString().charAt(6));
-		setVisible(true);
+		int dialogResult = JOptionPane.showConfirmDialog(null, fields, "Enter name & select difficulty", JOptionPane.OK_CANCEL_OPTION); // Prompts user for a player name before starting the game.
+		if(dialogResult == JOptionPane.CANCEL_OPTION)
+			System.exit(0);
+		else {
+			currentPlayer = new Player(name.getText());
+			currentGame = new OtherGame((int)lvl.getSelectedItem().toString().charAt(6));
+			currentPlayer.addOtherGame(currentGame);
+			setVisible(true);
+		}
 	}
 	
 	public class lvlTwoListener implements ActionListener { // Action listener for New Game -> Level 2
@@ -68,14 +76,17 @@ public class GameGUI extends JFrame {
 	
 	public class lvlFiveListener implements ActionListener { // Action listener for New Game -> Level 5
 		public void actionPerformed(ActionEvent ae) {
-			currentGame = new OtherGame(4);
+			currentGame = new OtherGame(5);
 			currentPlayer.addOtherGame(currentGame);
 			guesses.clear();
 			clues.clear(); }}
 	
 	public class newPlayerListener implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
-			
+			playerList.add(currentPlayer);
+			String newUser = JOptionPane.showInputDialog("Please enter your name: ");
+			Player newPlayer = new Player(newUser);
+			currentPlayer = newPlayer;
 		}
 	}
 	
@@ -100,6 +111,7 @@ public class GameGUI extends JFrame {
 		menuNew.add(subMenuNewGame);
 		JMenuItem newPlayer = new JMenuItem("New Player");
 		menuNew.add(newPlayer);
+		newPlayer.addActionListener(new newPlayerListener());
 		JMenuItem clear = new JMenuItem("Clear");
 		menuNew.add(clear);
 		
