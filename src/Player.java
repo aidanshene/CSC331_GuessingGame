@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class Player {
 	
 	String playerName;
+	ArrayList<Levels> levelsList = new ArrayList<Levels>();
 	ArrayList<OtherGame> otherGameList = new ArrayList<OtherGame>();
 	
 	public Player(String name) {
