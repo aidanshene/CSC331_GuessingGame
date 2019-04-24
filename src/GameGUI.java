@@ -97,6 +97,27 @@ public class GameGUI extends JFrame {
 			String clue = currentGame.clue;
 			guesses.addElement(guess);
 			clues.addElement(clue);
+			
+			
+			if (currentGame.gameOver()) {
+				String endMessage = "You win! You took ";
+				String guessesMessage = currentGame.guesses + " guesses.";
+				
+				if (currentPlayer.levelsList.contains(currentGame.lvl)) {
+					int gameLvl = currentGame.lvl;
+					currentPlayer.levelsList.get(gameLvl).addStats(currentGame.guesses);
+				}
+				else{
+					Levels lvl = new Levels(currentGame.lvl);
+					lvl.addStats(currentGame.guesses);
+					currentPlayer.levelsList.add(lvl);	
+				}
+				
+				JOptionPane.showMessageDialog(null, endMessage + guessesMessage);
+				
+//				currentPlayer.addOtherGame(currentGame);
+			}
+			
 		}
 	}
 	
