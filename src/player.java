@@ -1,26 +1,32 @@
 import java.util.ArrayList;
 
-public class player {
+public class Player {
 	
 	String playerName;
+	ArrayList<OtherGame> otherGameList = new ArrayList<OtherGame>();
 	
-	ArrayList<otherGame> otherGameList = new ArrayList<otherGame>();
-	
-	public player(String name) {
+	public Player(String name) {
 		this.playerName = name;
-		
 	}
 	
-	public void addOtherGame(otherGame game) {
+	public void addOtherGame(OtherGame game) {
 		otherGameList.add(game);
 	}
 	
-	
-	
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	public void setPlayerName(String newName) {
+		this.playerName = newName;
 	}
-
+	
+	public String getPlayerName() {
+		return this.playerName;
+	}
+	
+	public void setOtherGameList(ArrayList<OtherGame> newList) {
+		this.otherGameList = newList;
+	}
+	
+	public ArrayList<OtherGame> getOtherGameList() {
+		return this.otherGameList;
+	}
+	
 }

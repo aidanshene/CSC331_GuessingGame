@@ -2,11 +2,11 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.StringTokenizer;
 
-public class otherGame implements IGame{
+public class OtherGame implements IGame{
 	
 	ArrayList<Integer> answer = new ArrayList<Integer>();
 	
-	public otherGame(int level) {
+	public OtherGame(int level) {
 		
 		for(int i=0; i<level; i++) {
 			
