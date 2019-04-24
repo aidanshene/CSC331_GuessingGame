@@ -93,7 +93,8 @@ public class GameGUI extends JFrame {
 	public class EnterListener implements ActionListener { // Action listener for the Enter button.
 		public void actionPerformed(ActionEvent ae) {
 			String guess = textGuess.getText();
-			String clue = currentGame.checkValue(guess);
+			String result = currentGame.checkValue(guess);
+			String clue = currentGame.clue;
 			guesses.addElement(guess);
 			clues.addElement(clue);
 		}
