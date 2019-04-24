@@ -112,6 +112,10 @@ public class OtherGame extends Game implements IGame{
 		return false;
 	}
 	
+	public int getLevel() {
+		return this.lvl;
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
