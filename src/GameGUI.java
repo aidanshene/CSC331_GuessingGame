@@ -28,6 +28,8 @@ public class GameGUI extends JFrame {
 	public DefaultListModel<String> guesses;
 	public DefaultListModel<String> clues;
 	public JTextField textGuess;
+	public JLabel playerLbl;
+	public JLabel levelLbl;
 	
 	public OtherGame currentGame;
 	public Player currentPlayer;
@@ -50,7 +52,8 @@ public class GameGUI extends JFrame {
 			System.exit(0);
 		else {
 			currentPlayer = new Player(name.getText());
-			currentGame = new OtherGame((int)lvl.getSelectedItem().toString().charAt(6));
+			Integer lNum = Integer.parseInt(lvl.getSelectedItem().toString().substring(lvl.getSelectedItem().toString().length()-1));
+			currentGame = new OtherGame(lNum);
 			currentPlayer.addOtherGame(currentGame);
 			createDisplay();
 			setVisible(true);
@@ -60,6 +63,7 @@ public class GameGUI extends JFrame {
 	public class lvlTwoListener implements ActionListener { // Action listener for New Game -> Level 2
 		public void actionPerformed(ActionEvent ae) {
 			currentGame = new OtherGame(2);
+			levelLbl.setText("Level " + currentGame.getLevel());
 			currentPlayer.addOtherGame(currentGame);
 			guesses.clear();
 			clues.clear(); }}
@@ -67,6 +71,7 @@ public class GameGUI extends JFrame {
 	public class lvlThreeListener implements ActionListener { // Action listener for New Game -> Level 3
 		public void actionPerformed(ActionEvent ae) {
 			currentGame = new OtherGame(3);
+			levelLbl.setText("Level " + currentGame.getLevel());
 			currentPlayer.addOtherGame(currentGame);
 			guesses.clear();
 			clues.clear(); }}
@@ -74,6 +79,7 @@ public class GameGUI extends JFrame {
 	public class lvlFourListener implements ActionListener { // Action listener for New Game -> Level 4
 		public void actionPerformed(ActionEvent ae) {
 			currentGame = new OtherGame(4);
+			levelLbl.setText("Level " + currentGame.getLevel());
 			currentPlayer.addOtherGame(currentGame);
 			guesses.clear();
 			clues.clear(); }}
@@ -81,6 +87,7 @@ public class GameGUI extends JFrame {
 	public class lvlFiveListener implements ActionListener { // Action listener for New Game -> Level 5
 		public void actionPerformed(ActionEvent ae) {
 			currentGame = new OtherGame(5);
+			levelLbl.setText("Level " + currentGame.getLevel());
 			currentPlayer.addOtherGame(currentGame);
 			guesses.clear();
 			clues.clear(); }}
@@ -209,17 +216,17 @@ public class GameGUI extends JFrame {
 		c.gridy = 1;
 		display.add(enter, c);
 		
-		JLabel player = new JLabel(currentPlayer.getPlayerName());
+		playerLbl = new JLabel(currentPlayer.getPlayerName());
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 2;
-		display.add(player, c); // End of GridBag formatting.
+		display.add(playerLbl, c); // End of GridBag formatting.
 		
-		JLabel level = new JLabel("Level " + currentGame.getLevel());
+		levelLbl = new JLabel("Level " + currentGame.getLevel());
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 2;
-		display.add(level, c); // End of GridBag formatting.
+		display.add(levelLbl, c); // End of GridBag formatting.
 		
 		add(display);
 		setJMenuBar(mainMenuBar);
