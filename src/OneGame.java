@@ -7,6 +7,9 @@ public class OneGame extends Game {
 	Integer maxNumber;
 	Integer guessNumber = 0;
 	Integer randNumber;
+	int guesses;
+	String clue;
+	boolean correct;
 	
 	public OneGame( int userMax ) {
 		this.maxNumber = userMax;
@@ -74,18 +77,44 @@ public class OneGame extends Game {
 			Integer guess = this.getInput();
 			
 			if ( ( guess > this.maxNumber )  || ( guess < 0 ) ) {  // Checks out of bounds
-				System.out.println("Your guess fell outside of the predefined range!");
+				clue = ("Your guess fell outside of the predefined range!");
 			} else if ( guess == this.randNumber ) {  // Checks correct
-				System.out.println( "Correct! The number was " + guess.toString() + ". You win!" );
+//				clue = ("Correct! The number was " + guess.toString() + ". You win!" );
 				correct = true;
 			} else if ( guess < this.randNumber ) {  // Checks Lower bound
-				System.out.println( "Incorrect: Guess higher next time!" );
+				clue = ("<");
 			} else if (guess > this.randNumber ){  // Checks higher bound
-				System.out.println( "Incorrect: Guess lower next time!" );
+				clue = ( ">" );
 			}
 		}
 		return this.guessNumber;
 	}
+	
+	
+	public String checkValue(int guess) {
+		if ( ( guess > this.maxNumber )  || ( guess < 0 ) ) {  // Checks out of bounds
+			clue = ("Your guess fell outside of the predefined range!");
+		} else if ( guess == this.randNumber ) {  // Checks correct
+//			clue = ("Correct! The number was " + guess.toString() + ". You win!" );
+			correct = true;
+		} else if ( guess < this.randNumber ) {  // Checks Lower bound
+			clue = ("<");
+		} else if (guess > this.randNumber ){  // Checks higher bound
+			clue = ( ">" );
+		}
+		return clue;
+		
+	}
+	
+	public boolean gameOver() {
+		
+		if(correct)
+			return true;
+		
+		return false;
+	}
+	
+	
 	
 	
 }

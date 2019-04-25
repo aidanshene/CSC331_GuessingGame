@@ -51,7 +51,6 @@ public class OtherGame extends Game implements IGame{
 		
 		while(i != max) {
 
-			
 			String guess = token.nextToken();
 			String actual = answer.get(i).toString();
 			

@@ -23,24 +23,24 @@ import javax.swing.KeyStroke;
 
 public class GameGUI extends JFrame {
 	private static final long serialVersionUID = 70625052682885262L;
-	
+
 	public JPanel display;
 	public DefaultListModel<String> guesses;
 	public DefaultListModel<String> clues;
 	public JTextField textGuess;
 	public JLabel playerLbl;
 	public JLabel levelLbl;
-	
+
 	public OtherGame currentGame;
 	public Player currentPlayer;
 	public ArrayList<Player> playerList;
-	
+
 	public GameGUI(String title) {
 		super(title);
 		setSize(500, 500);
 		setLocation(500, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		playerList = new ArrayList<Player>();
 		JTextField name = new JTextField();
 		String[] levels = {"Level 1", "Level 2", "Level 3", "Level 4", "Level 5"};
@@ -59,7 +59,7 @@ public class GameGUI extends JFrame {
 			setVisible(true);
 		}
 	}
-	
+
 	public class lvlTwoListener implements ActionListener { // Action listener for New Game -> Level 2
 		public void actionPerformed(ActionEvent ae) {
 			currentGame = new OtherGame(2);
@@ -67,7 +67,7 @@ public class GameGUI extends JFrame {
 			currentPlayer.addOtherGame(currentGame);
 			guesses.clear();
 			clues.clear(); }}
-	
+
 	public class lvlThreeListener implements ActionListener { // Action listener for New Game -> Level 3
 		public void actionPerformed(ActionEvent ae) {
 			currentGame = new OtherGame(3);
@@ -75,7 +75,7 @@ public class GameGUI extends JFrame {
 			currentPlayer.addOtherGame(currentGame);
 			guesses.clear();
 			clues.clear(); }}
-	
+
 	public class lvlFourListener implements ActionListener { // Action listener for New Game -> Level 4
 		public void actionPerformed(ActionEvent ae) {
 			currentGame = new OtherGame(4);
@@ -83,7 +83,7 @@ public class GameGUI extends JFrame {
 			currentPlayer.addOtherGame(currentGame);
 			guesses.clear();
 			clues.clear(); }}
-	
+
 	public class lvlFiveListener implements ActionListener { // Action listener for New Game -> Level 5
 		public void actionPerformed(ActionEvent ae) {
 			currentGame = new OtherGame(5);
@@ -91,7 +91,7 @@ public class GameGUI extends JFrame {
 			currentPlayer.addOtherGame(currentGame);
 			guesses.clear();
 			clues.clear(); }}
-	
+
 	public class newPlayerListener implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
 			playerList.add(currentPlayer);
@@ -100,46 +100,55 @@ public class GameGUI extends JFrame {
 			currentPlayer = newPlayer;
 		}
 	}
-	
+
 	public class EnterListener implements ActionListener { // Action listener for the Enter button.
 		public void actionPerformed(ActionEvent ae) {
 			String guess = textGuess.getText();
-			String result = currentGame.checkValue(guess);
-			String clue = currentGame.clue;
-			guesses.addElement(guess);
-			clues.addElement(clue);
-			
-			
-			if (currentGame.gameOver()) {
-				String endMessage = "You win! You took ";
-				String guessesMessage = currentGame.guesses + " guesses.";
-				
-				if (currentPlayer.levelsList.contains(currentGame.lvl)) {
-					int gameLvl = currentGame.lvl;
-					currentPlayer.levelsList.get(gameLvl).addStats(currentGame.guesses);
+
+			if (currentGame instanceof OtherGame) {
+
+				String result = currentGame.checkValue(guess);
+				String clue = currentGame.clue;
+				guesses.addElement(guess);
+				clues.addElement(clue);
+
+				if (currentGame.gameOver()) {
+					String endMessage = "You win! You took ";
+					String guessesMessage = currentGame.guesses + " guesses.";
+
+					if (currentPlayer.levelsList.contains(currentGame.lvl)) {
+						int gameLvl = currentGame.lvl;
+						currentPlayer.levelsList.get(gameLvl).addStats(currentGame.guesses);
+					}
+					else{
+						Levels lvl = new Levels(currentGame.lvl);
+						lvl.addStats(currentGame.guesses);
+						currentPlayer.levelsList.add(lvl);
+					}
+
+					JOptionPane.showMessageDialog(null, endMessage + guessesMessage);
+
+					JOptionPane.showMessageDialog(null, currentPlayer.levelsList.size());
+//					JOptionPane.showMessageDialog(null, currentGame.getLevel());
+//					currentPlayer.addOtherGame(currentGame);
 				}
-				else{
-					Levels lvl = new Levels(currentGame.lvl);
-					lvl.addStats(currentGame.guesses);
-					currentPlayer.levelsList.add(lvl);	
-				}
-				
-				JOptionPane.showMessageDialog(null, endMessage + guessesMessage);
-				
-//				currentPlayer.addOtherGame(currentGame);
 			}
-			
+			else {
+
+
+			}
+
 		}
 	}
-	
+
 	public void createDisplay() {
-		
+
 		JMenuBar mainMenuBar = new JMenuBar(); // Creates the menu bar which houses all menu options.
 		JMenu menuNew = new JMenu("New"); // Creates the two sub menus that branch directly from the main menu bar.
 		mainMenuBar.add(menuNew);
 		JMenu menuStats = new JMenu("Statistics");
 		mainMenuBar.add(menuStats);
-		
+
 		JMenu subMenuNewGame = new JMenu("New Game..."); // Creates and the menu and menu items within "New."
 		menuNew.add(subMenuNewGame);
 		JMenuItem newPlayer = new JMenuItem("New Player");
@@ -148,7 +157,7 @@ public class GameGUI extends JFrame {
 		newPlayer.addActionListener(new newPlayerListener());
 		JMenuItem clear = new JMenuItem("Clear");
 		menuNew.add(clear);
-		
+
 		JMenuItem lvlOne = new JMenuItem("Level 1"); // Creates sub-items within "New Game..."
 		subMenuNewGame.add(lvlOne);
 		//add action listener for lvlOne
@@ -169,7 +178,7 @@ public class GameGUI extends JFrame {
 		lvlFive.addActionListener(new lvlFiveListener());
 		lvlFive.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_5, ActionEvent.ALT_MASK));
 		subMenuNewGame.add(lvlFive);
-		
+
 		JCheckBoxMenuItem time = new JCheckBoxMenuItem("Time"); // Creates the menu and menu items within "Statistics."
 		menuStats.add(time);
 		JCheckBoxMenuItem numPlays = new JCheckBoxMenuItem("# of Plays");
@@ -178,11 +187,11 @@ public class GameGUI extends JFrame {
 		menuStats.add(topPlayer);
 		JCheckBoxMenuItem mostDifGame = new JCheckBoxMenuItem("Most Difficult Game");
 		menuStats.add(mostDifGame);
-		
+
 		display = new JPanel(); // Creates display and sets layout as GridBag, below sets constraints for formatting.
-		display.setLayout(new GridBagLayout()); 
+		display.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints(); // Sets constraints, must adjust to liking before adding to display.
-		
+
 		guesses = new DefaultListModel<String>(); // Actual list that guesses are stored in.
 		JList<String> listGuesses = new JList<String>(guesses); // listGuesses component contains the guesses list model.
 		JScrollPane guessPane = new JScrollPane(listGuesses); // guessPane contains the JList and allows scroll-ability.
@@ -191,7 +200,7 @@ public class GameGUI extends JFrame {
 		c.gridx = 0; // Position on grid in x direction
 		c.gridy = 0; // Position on grid in y direction
 		display.add(guessPane, c); // Adds listGuesses to display, adhering to the constraints of the GridBag
-		
+
 		clues = new DefaultListModel<String>();
 		JList<String> listClues = new JList<String>(clues);
 		JScrollPane cluePane = new JScrollPane(listClues);
@@ -199,7 +208,7 @@ public class GameGUI extends JFrame {
 		c.gridx = 1;
 		c.gridy = 0;
 		display.add(cluePane, c);
-		
+
 		textGuess = new JTextField();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.ipady = 0; // Sets height value constraint
@@ -207,7 +216,7 @@ public class GameGUI extends JFrame {
 		c.gridx = 0;
 		c.gridy = 1;
 		display.add(textGuess, c);
-		
+
 		JButton enter = new JButton("Enter");
 		enter.addActionListener(new EnterListener());
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -215,40 +224,24 @@ public class GameGUI extends JFrame {
 		c.gridx = 1;
 		c.gridy = 1;
 		display.add(enter, c);
-		
+
 		playerLbl = new JLabel(currentPlayer.getPlayerName());
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 2;
 		display.add(playerLbl, c); // End of GridBag formatting.
-		
+
 		levelLbl = new JLabel("Level " + currentGame.getLevel());
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 2;
 		display.add(levelLbl, c); // End of GridBag formatting.
-		
+
 		add(display);
 		setJMenuBar(mainMenuBar);
 	}
-	
+
 	public static void main(String[] args) {
 		new GameGUI("Numbers Game");
-	}	
+	}
 }
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-

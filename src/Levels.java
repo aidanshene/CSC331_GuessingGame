@@ -11,7 +11,7 @@ public class Levels {
 	double avgGuesses;
 	
 	public Levels(int level) {
-		level = level;
+		this.level = level;
 	}
 	
 	public void addStats(int guesses) {
