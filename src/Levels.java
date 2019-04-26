@@ -44,5 +44,9 @@ public class Levels {
 		// TODO Auto-generated method stub
 
 	}
+	
+	public void setScores ( ArrayList<Integer> newScores ) {
+		this.scores = newScores;
+	}
 
 }
