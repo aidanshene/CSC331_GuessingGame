@@ -5,7 +5,7 @@ public class Player {
 	String playerName;
 	ArrayList<Levels> levelsList = new ArrayList<Levels>();
 	ArrayList<OtherGame> otherGameList = new ArrayList<OtherGame>();
-	long timePlayed = 0;
+	Long timePlayed = (long) 0;
 	
 	public Player(String name) {
 		this.playerName = name;
@@ -41,5 +41,9 @@ public class Player {
 	
 	public void setPlayTime ( long gameTime ) {
 		timePlayed = gameTime;
+	}
+	
+	public String getPlayTime () {
+		return this.timePlayed.toString();
 	}
 }

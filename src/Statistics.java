@@ -2,8 +2,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Statistics {
@@ -54,6 +58,29 @@ public class Statistics {
 		}
 		
 		PlayerNames = TempPlayerNames;
+	}
+	
+	public void SaveStatistics() throws IOException {
+		
+		ArrayList<String> FormattedStats = new ArrayList<String>();
+		
+		for ( Player P : MasterPlayerList ) {
+				for ( Levels L : P.levelsList ) {
+					StringBuffer CurrentLine = new StringBuffer();
+					CurrentLine.append( P.getPlayerName() + "," + L.level.toString() + "," + P.getPlayTime() + ",");
+					for ( Integer J : L.scores ) { CurrentLine.append(J.toString() + "," ); }
+					CurrentLine.append("\n");
+					FormattedStats.add( CurrentLine.toString() );
+				}
+			
+		}
+		
+		FileWriter StatsWriter = new FileWriter("Statistics.csv");
+		for ( String S : FormattedStats ) {
+			StatsWriter.write( S );
+		}
+		
+		StatsWriter.close();
 	}
 	
 	public Player NewPlayer( String PlayerName ) {
