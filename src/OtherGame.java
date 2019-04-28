@@ -5,11 +5,9 @@ import java.util.StringTokenizer;
 
 public class OtherGame extends Game implements IGame{
 	//Guesses will be used in statistics
-	int guesses;
-	
-	String clue;	
-	
-	int lvl;
+	private int guesses;
+	private String clue;	
+	private final int lvl;
 	
 	ArrayList<Integer> answer = new ArrayList<Integer>();
 	
@@ -113,6 +111,22 @@ public class OtherGame extends Game implements IGame{
 	
 	public int getLevel() {
 		return this.lvl;
+	}
+	
+	public String getClue() {
+		return this.clue;
+	}
+	
+	public void setClue(String clue) {
+		this.clue = clue;
+	}
+	
+	public int getGuesses() {
+		return guesses;
+	}
+	
+	public void setGuesses(int num) {
+		this.guesses = num;
 	}
 	
 	public static void main(String[] args) {
