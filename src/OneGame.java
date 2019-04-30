@@ -4,10 +4,13 @@ import java.io.InputStreamReader;
 import java.util.Random;
 
 public class OneGame extends Game {
+	
+	final static int level = 1;
+	
 	Integer maxNumber;
 	Integer guessNumber = 0;
 	Integer randNumber;
-	int guesses;
+	int guesses = 0;
 	String clue;
 	boolean correct;
 	
@@ -16,8 +19,13 @@ public class OneGame extends Game {
 		
 		// Random Number Generation
 		Random randInt = new Random();
-		this.randNumber = randInt.nextInt(this.maxNumber) + 1;
+		this.randNumber = randInt.nextInt(this.maxNumber + 1);
 	}
+	
+	public int getLevel() {
+		return this.level;
+	}
+	
 	
 	public Integer getInput() {
 		
@@ -91,30 +99,63 @@ public class OneGame extends Game {
 	}
 	
 	
-	public String checkValue(int guess) {
-		if ( ( guess > this.maxNumber )  || ( guess < 0 ) ) {  // Checks out of bounds
+//	public String checkValue(int guess) {
+//		guesses ++;
+//		
+//		if ( ( guess > this.maxNumber )  || ( guess < 0 ) ) {  // Checks out of bounds
+//			clue = ("Your guess fell outside of the predefined range!");
+//		} else if ( guess == this.randNumber ) {  // Checks correct
+////			clue = ("Correct! The number was " + guess.toString() + ". You win!" );
+//			correct = true;
+//		} else if ( guess < this.randNumber ) {  // Checks Lower bound
+//			clue = ("<");
+//		} else if (guess > this.randNumber ){  // Checks higher bound
+//			clue = ( ">" );
+//		}
+//		return clue;
+//		
+//	}
+//	
+//	public boolean gameOver() {
+//		
+//		if(correct)
+//			return true;
+//		
+//		return false;
+//	}
+
+	@Override
+	public String checkValue(String guess) {
+		// TODO Auto-generated method stub
+		
+		Integer Guess = 0;
+		Guess.parseInt(guess);
+		
+		
+		guesses ++;
+		
+		if ( ( Guess > this.maxNumber )  || ( Guess < 0 ) ) {  // Checks out of bounds
 			clue = ("Your guess fell outside of the predefined range!");
-		} else if ( guess == this.randNumber ) {  // Checks correct
+		} else if ( Guess == this.randNumber ) {  // Checks correct
 //			clue = ("Correct! The number was " + guess.toString() + ". You win!" );
 			correct = true;
-		} else if ( guess < this.randNumber ) {  // Checks Lower bound
+		} else if ( Guess < this.randNumber ) {  // Checks Lower bound
 			clue = ("<");
-		} else if (guess > this.randNumber ){  // Checks higher bound
+		} else if (Guess > this.randNumber ){  // Checks higher bound
 			clue = ( ">" );
 		}
 		return clue;
 		
-	}
+		
+		
 	
+	}
 	public boolean gameOver() {
 		
-		if(correct)
+		if(correct == true) {
 			return true;
-		
+		}
 		return false;
 	}
-	
-	
-	
 	
 }

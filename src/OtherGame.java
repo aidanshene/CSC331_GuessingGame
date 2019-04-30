@@ -9,7 +9,7 @@ public class OtherGame extends Game implements IGame{
 	
 	String clue;	
 	
-	int lvl;
+	final int lvl;
 	
 	ArrayList<Integer> answer = new ArrayList<Integer>();
 	
