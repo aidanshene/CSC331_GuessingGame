@@ -4,7 +4,7 @@ public class Levels {
 	
 	ArrayList<Integer> scores = new ArrayList<Integer>();
 	
-	int level;
+	Integer level;
 	int lowestScore = 100;
 	int highestScore = 0;
 	int totalGuesses = 0;
@@ -43,6 +43,10 @@ public class Levels {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public void setScores ( ArrayList<Integer> newScores ) {
+		this.scores = newScores;
 	}
 
 }
