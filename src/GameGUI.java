@@ -20,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 public class GameGUI extends JFrame {
 	private static final long serialVersionUID = 70625052682885262L;
@@ -30,6 +32,12 @@ public class GameGUI extends JFrame {
 	public JTextField textGuess;
 	public JLabel playerLbl;
 	public JLabel levelLbl;
+	public JCheckBoxMenuItem theme;
+	
+	public JTextField name = new JTextField();
+	public String[] levels = {"Level 1", "Level 2", "Level 3", "Level 4", "Level 5"};
+	public JComboBox<String> lvl = new JComboBox<String>(levels);
+	public Object[] fields = {"Player Name:", name, "Level:", lvl};
 
 	public OtherGame currentGame;
 	public Player currentPlayer;
@@ -42,16 +50,14 @@ public class GameGUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		playerList = new ArrayList<Player>();
-		JTextField name = new JTextField();
-		String[] levels = {"Level 1", "Level 2", "Level 3", "Level 4", "Level 5"};
-		JComboBox<String> lvl = new JComboBox<String>(levels);
-		Object[] fields = {"Player Name:", name, "Level:", lvl};
-
+		
+		lvl.setSelectedIndex(-1);
 		int dialogResult = JOptionPane.showConfirmDialog(null, fields, "Enter name & select difficulty", JOptionPane.OK_CANCEL_OPTION); // Prompts user for a player name before starting the game.
 		if(dialogResult == JOptionPane.CANCEL_OPTION)
 			System.exit(0);
 		else {
 			currentPlayer = new Player(name.getText());
+			playerList.add(currentPlayer);
 			Integer lNum = Integer.parseInt(lvl.getSelectedItem().toString().substring(lvl.getSelectedItem().toString().length()-1));
 			currentGame = new OtherGame(lNum);
 			currentPlayer.addOtherGame(currentGame);
@@ -60,7 +66,7 @@ public class GameGUI extends JFrame {
 		}
 	}
 
-	public class lvlTwoListener implements ActionListener { // Action listener for New Game -> Level 2
+	public class LvlTwoListener implements ActionListener { // Action listener for New Game -> Level 2
 		public void actionPerformed(ActionEvent ae) {
 			currentGame = new OtherGame(2);
 			levelLbl.setText("Level " + currentGame.getLevel());
@@ -68,7 +74,7 @@ public class GameGUI extends JFrame {
 			guesses.clear();
 			clues.clear(); }}
 
-	public class lvlThreeListener implements ActionListener { // Action listener for New Game -> Level 3
+	public class LvlThreeListener implements ActionListener { // Action listener for New Game -> Level 3
 		public void actionPerformed(ActionEvent ae) {
 			currentGame = new OtherGame(3);
 			levelLbl.setText("Level " + currentGame.getLevel());
@@ -76,7 +82,7 @@ public class GameGUI extends JFrame {
 			guesses.clear();
 			clues.clear(); }}
 
-	public class lvlFourListener implements ActionListener { // Action listener for New Game -> Level 4
+	public class LvlFourListener implements ActionListener { // Action listener for New Game -> Level 4
 		public void actionPerformed(ActionEvent ae) {
 			currentGame = new OtherGame(4);
 			levelLbl.setText("Level " + currentGame.getLevel());
@@ -84,7 +90,7 @@ public class GameGUI extends JFrame {
 			guesses.clear();
 			clues.clear(); }}
 
-	public class lvlFiveListener implements ActionListener { // Action listener for New Game -> Level 5
+	public class LvlFiveListener implements ActionListener { // Action listener for New Game -> Level 5
 		public void actionPerformed(ActionEvent ae) {
 			currentGame = new OtherGame(5);
 			levelLbl.setText("Level " + currentGame.getLevel());
@@ -92,13 +98,52 @@ public class GameGUI extends JFrame {
 			guesses.clear();
 			clues.clear(); }}
 
-	public class newPlayerListener implements ActionListener {
+	public class NewPlayerListener implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
-			playerList.add(currentPlayer);
-			String newUser = JOptionPane.showInputDialog("Please enter your name: ");
-			Player newPlayer = new Player(newUser);
-			currentPlayer = newPlayer;
+			name.setText("");
+			lvl.setSelectedIndex(-1);
+			int dialogResult = JOptionPane.showConfirmDialog(null, fields, "Enter name & select difficulty", JOptionPane.OK_CANCEL_OPTION); // Prompts user for a player name before starting the game.
+			if(dialogResult == JOptionPane.CANCEL_OPTION)
+				System.exit(0);
+			else {
+				currentPlayer = new Player(name.getText());
+				playerLbl.setText(currentPlayer.getPlayerName());
+				playerList.add(currentPlayer);
+				Integer lNum = Integer.parseInt(lvl.getSelectedItem().toString().substring(lvl.getSelectedItem().toString().length()-1));
+				currentGame = new OtherGame(lNum);
+				levelLbl.setText(lvl.getSelectedItem().toString());
+				currentPlayer.addOtherGame(currentGame);
+				guesses.clear();
+				clues.clear();
+			}
 		}
+	}
+	
+	public class ClearListener implements ActionListener {
+		public void actionPerformed(ActionEvent ae) {
+			guesses.clear();
+			clues.clear();
+		}
+	}
+	
+	public class ThemeListener implements ActionListener {
+		public void actionPerformed(ActionEvent ae) {
+				if(theme.isSelected()) {
+					try {
+		                UIManager.setLookAndFeel("javax.swing.plaf.hifi.HiFiLookAndFeel");
+		            } catch (Exception e) {
+		                e.printStackTrace();
+		            }
+				}
+				if(!theme.isSelected()) {
+					try {
+			            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			        } catch (Exception e) {
+			            e.printStackTrace();
+			        }
+				}
+				SwingUtilities.updateComponentTreeUI(this);
+		} 
 	}
 
 	public class EnterListener implements ActionListener { // Action listener for the Enter button.
@@ -108,21 +153,21 @@ public class GameGUI extends JFrame {
 			if (currentGame instanceof OtherGame) {
 
 				String result = currentGame.checkValue(guess);
-				String clue = currentGame.clue;
+				String clue = currentGame.getClue();
 				guesses.addElement(guess);
 				clues.addElement(clue);
 
 				if (currentGame.gameOver()) {
 					String endMessage = "You win! You took ";
-					String guessesMessage = currentGame.guesses + " guesses.";
+					String guessesMessage = currentGame.getGuesses() + " guesses.";
 
-					if (currentPlayer.levelsList.contains(currentGame.lvl)) {
-						int gameLvl = currentGame.lvl;
-						currentPlayer.levelsList.get(gameLvl).addStats(currentGame.guesses);
+					if (currentPlayer.levelsList.contains(currentGame.getLevel())) {
+						int gameLvl = currentGame.getLevel();
+						currentPlayer.levelsList.get(gameLvl).addStats(currentGame.getGuesses());
 					}
 					else{
-						Levels lvl = new Levels(currentGame.lvl);
-						lvl.addStats(currentGame.guesses);
+						Levels lvl = new Levels(currentGame.getLevel());
+						lvl.addStats(currentGame.getGuesses());
 						currentPlayer.levelsList.add(lvl);
 					}
 
@@ -147,14 +192,17 @@ public class GameGUI extends JFrame {
 		mainMenuBar.add(menuNew);
 		JMenu menuStats = new JMenu("Statistics");
 		mainMenuBar.add(menuStats);
+		JMenu menuOther = new JMenu("Other");
+		mainMenuBar.add(menuOther);
 
 		JMenu subMenuNewGame = new JMenu("New Game..."); // Creates and the menu and menu items within "New."
 		menuNew.add(subMenuNewGame);
 		JMenuItem newPlayer = new JMenuItem("New Player");
 		newPlayer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.ALT_MASK));
 		menuNew.add(newPlayer);
-		newPlayer.addActionListener(new newPlayerListener());
+		newPlayer.addActionListener(new NewPlayerListener());
 		JMenuItem clear = new JMenuItem("Clear");
+		clear.addActionListener(new ClearListener());
 		menuNew.add(clear);
 
 		JMenuItem lvlOne = new JMenuItem("Level 1"); // Creates sub-items within "New Game..."
@@ -162,19 +210,19 @@ public class GameGUI extends JFrame {
 		//add action listener for lvlOne
 		lvlOne.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
 		JMenuItem lvlTwo = new JMenuItem("Level 2"); // Create menu item.
-		lvlTwo.addActionListener(new lvlTwoListener()); // Add appropriate listener.
+		lvlTwo.addActionListener(new LvlTwoListener()); // Add appropriate listener.
 		lvlTwo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, ActionEvent.ALT_MASK));
 		subMenuNewGame.add(lvlTwo); // Add to sub-menu.
 		JMenuItem lvlThree = new JMenuItem("Level 3");
-		lvlThree.addActionListener(new lvlThreeListener());
+		lvlThree.addActionListener(new LvlThreeListener());
 		lvlThree.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, ActionEvent.ALT_MASK));
 		subMenuNewGame.add(lvlThree);
 		JMenuItem lvlFour = new JMenuItem("Level 4");
-		lvlFour.addActionListener(new lvlFourListener());
+		lvlFour.addActionListener(new LvlFourListener());
 		lvlFour.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, ActionEvent.ALT_MASK));
 		subMenuNewGame.add(lvlFour);
 		JMenuItem lvlFive = new JMenuItem("Level 5");
-		lvlFive.addActionListener(new lvlFiveListener());
+		lvlFive.addActionListener(new LvlFiveListener());
 		lvlFive.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_5, ActionEvent.ALT_MASK));
 		subMenuNewGame.add(lvlFive);
 
@@ -186,6 +234,10 @@ public class GameGUI extends JFrame {
 		menuStats.add(topPlayer);
 		JCheckBoxMenuItem mostDifGame = new JCheckBoxMenuItem("Most Difficult Game");
 		menuStats.add(mostDifGame);
+		
+		theme = new JCheckBoxMenuItem("Dark Mode"); // Creates the menu items within "Other."
+		theme.addActionListener(new ThemeListener());
+		menuOther.add(theme);
 
 		display = new JPanel(); // Creates display and sets layout as GridBag, below sets constraints for formatting.
 		display.setLayout(new GridBagLayout());
@@ -239,8 +291,8 @@ public class GameGUI extends JFrame {
 		add(display);
 		setJMenuBar(mainMenuBar);
 	}
-
-	public static void main(String[] args) {
-		new GameGUI("Numbers Game");
+	
+	public void createStatsDisplay() {
+		
 	}
 }
