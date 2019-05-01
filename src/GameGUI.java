@@ -165,7 +165,6 @@ public class GameGUI extends JFrame {
 					currentPlayer.levelsList.add(new Levels(currentLevel));
 					
 					JOptionPane.showMessageDialog(null, endMessage + guessesMessage);
-
 					JOptionPane.showMessageDialog(null, currentPlayer.levelsList.size());
 //					JOptionPane.showMessageDialog(null, currentGame.getLevel());
 //					currentPlayer.addOtherGame(currentGame);
