@@ -1,7 +1,9 @@
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
@@ -23,7 +25,7 @@ import javax.swing.KeyStroke;
 
 public class GameGUI extends JFrame {
 	private static final long serialVersionUID = 70625052682885262L;
-
+	
 	public JPanel gameDisplay;
 	public JPanel statsDisplay;
 	public DefaultListModel<String> guesses;
@@ -67,9 +69,11 @@ public class GameGUI extends JFrame {
 				currentGame = new OtherGame(lNum);
 			}
 			createDisplay();
+			
 			setVisible(true);
 		}
 	}
+	
 	
 	
 	public class LvlOneListener implements ActionListener{
@@ -231,7 +235,7 @@ public class GameGUI extends JFrame {
 	}
 }
 	public void createDisplay() {
-
+		
 		JMenuBar mainMenuBar = new JMenuBar(); // Creates the menu bar which houses all menu options.
 		JMenu menuNew = new JMenu("New"); // Creates the two sub menus that branch directly from the main menu bar.
 		mainMenuBar.add(menuNew);
@@ -276,7 +280,7 @@ public class GameGUI extends JFrame {
 		gameDisplay = new JPanel(); // Creates display and sets layout as GridBag, below sets constraints for formatting.
 		gameDisplay.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints(); // Sets constraints, must adjust to liking before adding to display.
-
+		
 		guesses = new DefaultListModel<String>(); // Actual list that guesses are stored in.
 		JList<String> listGuesses = new JList<String>(guesses); // listGuesses component contains the guesses list model.
 		JScrollPane guessPane = new JScrollPane(listGuesses); // guessPane contains the JList and allows scroll-ability.
@@ -322,9 +326,9 @@ public class GameGUI extends JFrame {
 		c.gridy = 2;
 		gameDisplay.add(levelLbl, c); // End of GridBag formatting.
 
-		add(gameDisplay);
 		setJMenuBar(mainMenuBar);
 	}
+	
 	
 	public void createStatsDisplay() {
 		JFrame statsDisplay = new JFrame("Statistics");
