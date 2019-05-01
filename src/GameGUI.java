@@ -188,13 +188,14 @@ public class GameGUI extends JFrame {
 						}
 					}
 					currentPlayer.levelsList.add(new Levels(currentLevel));
-					JOptionPane.showMessageDialog(null, currentPlayer.levelsList.size());
 				}
 				} catch (Exception NumberFormatException){
 					JOptionPane.showMessageDialog(null, "Please enter the guess in the format #,#,.,.,.   ");
 				}
 			}
 			else {
+				
+				try {
 				
 				currentGame.checkValue(guess);
 				
@@ -217,8 +218,11 @@ public class GameGUI extends JFrame {
 						}
 					}
 					currentPlayer.levelsList.add(new Levels(1));
-					JOptionPane.showMessageDialog(null, currentPlayer.levelsList.size());
 			}
+				}catch(Exception NumberFormatException) {
+					JOptionPane.showMessageDialog(null, "Please enter valid input");
+					
+				}
 
 		}
 	}
