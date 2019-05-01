@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 
+=======
+import java.awt.Font;
+>>>>>>> 1b4e52a0b70c7c5a9cd58d312b287b299a1bc695
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -22,12 +26,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
 
 public class GameGUI extends JFrame {
 	private static final long serialVersionUID = 70625052682885262L;
 	
 	public JPanel gameDisplay;
-	public JPanel statsDisplay;
 	public DefaultListModel<String> guesses;
 	public DefaultListModel<String> clues;
 	public JTextField textGuess;
@@ -60,7 +64,7 @@ public class GameGUI extends JFrame {
 			currentPlayer = new Player(name.getText());
 			playerList.add(currentPlayer);
 			Integer lNum = Integer.parseInt(lvl.getSelectedItem().toString().substring(lvl.getSelectedItem().toString().length()-1));
-			if (lNum == 1 ) {
+			if (lNum == 1) {
 				String maxInt = JOptionPane.showInputDialog("Please enter the upper bound: ");
 				Integer upperBound = 0;
 				upperBound += upperBound.parseInt(maxInt);
@@ -74,9 +78,13 @@ public class GameGUI extends JFrame {
 		}
 	}
 	
+<<<<<<< HEAD
 	
 	
 	public class LvlOneListener implements ActionListener{
+=======
+	public class LvlOneListener implements ActionListener { // Action listener for New Game -> Level 1
+>>>>>>> 1b4e52a0b70c7c5a9cd58d312b287b299a1bc695
 		public void actionPerformed(ActionEvent ae) {
 			String maxInt = JOptionPane.showInputDialog("Please enter the upper bound: ");
 			Integer upperBound = 0;
@@ -85,10 +93,7 @@ public class GameGUI extends JFrame {
 			levelLbl.setText("Level 1");
 			textGuess.setText("");
 			guesses.clear();
-			clues.clear();
-		}
-		
-	}
+			clues.clear(); }}
 
 	public class LvlTwoListener implements ActionListener { // Action listener for New Game -> Level 2
 		public void actionPerformed(ActionEvent ae) {
@@ -159,8 +164,8 @@ public class GameGUI extends JFrame {
 	}
 	
 	public class StatsListener implements ActionListener {
-		public void actionPerformed(ActionEvent ae) {
-			createStatsDisplay();
+		public void actionPerformed(ActionEvent ae) { 
+   
 		}
 	}
 
@@ -276,10 +281,29 @@ public class GameGUI extends JFrame {
 
 		JMenuItem stats = new JMenuItem("Show Stats..."); // Creates the menu and menu items within "Statistics."
 		menuStats.add(stats);
-	
-		gameDisplay = new JPanel(); // Creates display and sets layout as GridBag, below sets constraints for formatting.
+		
+		gameDisplay = new JPanel();
 		gameDisplay.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints(); // Sets constraints, must adjust to liking before adding to display.
+<<<<<<< HEAD
+=======
+
+		JLabel guessesLbl = new JLabel("Guesses:");
+		guessesLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		guessesLbl.setFont(new Font("Comic Sans", Font.PLAIN, 25));
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		gameDisplay.add(guessesLbl, c); 
+
+		JLabel cluesLbl = new JLabel("Clues:");
+		cluesLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		cluesLbl.setFont(new Font("Comic Sans", Font.PLAIN, 25));
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 0;
+		gameDisplay.add(cluesLbl, c);
+>>>>>>> 1b4e52a0b70c7c5a9cd58d312b287b299a1bc695
 		
 		guesses = new DefaultListModel<String>(); // Actual list that guesses are stored in.
 		JList<String> listGuesses = new JList<String>(guesses); // listGuesses component contains the guesses list model.
@@ -287,7 +311,7 @@ public class GameGUI extends JFrame {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.ipady = 300; // Sets height value constraint
 		c.gridx = 0; // Position on grid in x direction
-		c.gridy = 0; // Position on grid in y direction
+		c.gridy = 1; // Position on grid in y direction
 		gameDisplay.add(guessPane, c); // Adds listGuesses to display, adhering to the constraints of the GridBag
 
 		clues = new DefaultListModel<String>();
@@ -295,7 +319,7 @@ public class GameGUI extends JFrame {
 		JScrollPane cluePane = new JScrollPane(listClues);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
-		c.gridy = 0;
+		c.gridy = 1;
 		gameDisplay.add(cluePane, c);
 
 		textGuess = new JTextField();
@@ -303,7 +327,7 @@ public class GameGUI extends JFrame {
 		c.ipady = 0; // Sets height value constraint
 		c.weightx = 0.5;
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 2;
 		gameDisplay.add(textGuess, c);
 
 		JButton enter = new JButton("Enter");
@@ -311,23 +335,28 @@ public class GameGUI extends JFrame {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.5;
 		c.gridx = 1;
-		c.gridy = 1;
+		c.gridy = 2;
 		gameDisplay.add(enter, c);
 
 		playerLbl = new JLabel(currentPlayer.getPlayerName());
+		playerLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		playerLbl.setFont(new Font("Comic Sans", Font.PLAIN, 25));
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
-		c.gridy = 2;
-		gameDisplay.add(playerLbl, c); // End of GridBag formatting.
+		c.gridy = 3;
+		gameDisplay.add(playerLbl, c); 
 
 		levelLbl = new JLabel("Level " + currentGame.getLevel());
+		levelLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		levelLbl.setFont(new Font("Comic Sans", Font.PLAIN, 25));
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
-		c.gridy = 2;
+		c.gridy = 3;
 		gameDisplay.add(levelLbl, c); // End of GridBag formatting.
 
 		setJMenuBar(mainMenuBar);
 	}
+<<<<<<< HEAD
 	
 	
 	public void createStatsDisplay() {
@@ -343,4 +372,7 @@ public class GameGUI extends JFrame {
 	public static void main(String[] args) {
 		GameGUI ui = new GameGUI("Numbers Game");
 	}
+=======
+
+>>>>>>> 1b4e52a0b70c7c5a9cd58d312b287b299a1bc695
 }
