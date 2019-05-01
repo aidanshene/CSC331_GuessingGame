@@ -111,6 +111,7 @@ public class OtherGame extends Game implements IGame{
 		this.clue = clue;
 	}
 	
+	
 	public int getGuesses() {
 		return guesses;
 	}
@@ -119,6 +120,14 @@ public class OtherGame extends Game implements IGame{
 		this.guesses = num;
 	}
 
+
+	@Override
+	public int getMax() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
 	public void getInput() {
 		// TODO Auto-generated method stub
 		

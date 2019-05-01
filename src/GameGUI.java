@@ -38,7 +38,7 @@ public class GameGUI extends JFrame {
 	public JComboBox<String> lvl = new JComboBox<String>(levels);
 	public Object[] fields = {"Player Name:", name, "Level:", lvl};
 
-	public OtherGame currentGame;
+	public Game currentGame;
 	public Player currentPlayer;
 	public ArrayList<Player> playerList;
 
@@ -58,18 +58,38 @@ public class GameGUI extends JFrame {
 			currentPlayer = new Player(name.getText());
 			playerList.add(currentPlayer);
 			Integer lNum = Integer.parseInt(lvl.getSelectedItem().toString().substring(lvl.getSelectedItem().toString().length()-1));
-			currentGame = new OtherGame(lNum);
-//			currentPlayer.addOtherGame(currentGame);
+			if (lNum == 1 ) {
+				String maxInt = JOptionPane.showInputDialog("Please enter the upper bound: ");
+				Integer upperBound = 0;
+				upperBound += upperBound.parseInt(maxInt);
+				currentGame = new OneGame(upperBound);
+			}else{
+				currentGame = new OtherGame(lNum);
+			}
 			createDisplay();
 			setVisible(true);
 		}
+	}
+	
+	
+	public class LvlOneListener implements ActionListener{
+		public void actionPerformed(ActionEvent ae) {
+			String maxInt = JOptionPane.showInputDialog("Please enter the upper bound: ");
+			Integer upperBound = 0;
+			upperBound += upperBound.parseInt(maxInt);
+			currentGame = new OneGame(upperBound);
+			levelLbl.setText("Level 1");
+			textGuess.setText("");
+			guesses.clear();
+			clues.clear();
+		}
+		
 	}
 
 	public class LvlTwoListener implements ActionListener { // Action listener for New Game -> Level 2
 		public void actionPerformed(ActionEvent ae) {
 			currentGame = new OtherGame(2);
 			levelLbl.setText("Level " + currentGame.getLevel());
-//			currentPlayer.addOtherGame(currentGame);
 			textGuess.setText("");
 			guesses.clear();
 			clues.clear(); }}
@@ -78,7 +98,6 @@ public class GameGUI extends JFrame {
 		public void actionPerformed(ActionEvent ae) {
 			currentGame = new OtherGame(3);
 			levelLbl.setText("Level " + currentGame.getLevel());
-//			currentPlayer.addOtherGame(currentGame);
 			textGuess.setText("");
 			guesses.clear();
 			clues.clear(); }}
@@ -87,7 +106,6 @@ public class GameGUI extends JFrame {
 		public void actionPerformed(ActionEvent ae) {
 			currentGame = new OtherGame(4);
 			levelLbl.setText("Level " + currentGame.getLevel());
-			currentPlayer.addOtherGame(currentGame);
 			textGuess.setText("");
 			guesses.clear();
 			clues.clear(); }}
@@ -96,7 +114,6 @@ public class GameGUI extends JFrame {
 		public void actionPerformed(ActionEvent ae) {
 			currentGame = new OtherGame(5);
 			levelLbl.setText("Level " + currentGame.getLevel());
-			currentPlayer.addOtherGame(currentGame);
 			textGuess.setText("");
 			guesses.clear();
 			clues.clear(); }}
@@ -113,9 +130,17 @@ public class GameGUI extends JFrame {
 				playerLbl.setText(currentPlayer.getPlayerName());
 				playerList.add(currentPlayer);
 				Integer lNum = Integer.parseInt(lvl.getSelectedItem().toString().substring(lvl.getSelectedItem().toString().length()-1));
-				currentGame = new OtherGame(lNum);
-				levelLbl.setText(lvl.getSelectedItem().toString());
-				currentPlayer.addOtherGame(currentGame);
+				
+				if (lNum == 1 ) {
+					String maxInt = JOptionPane.showInputDialog("Please enter the upper bound: ");
+					Integer upperBound = 0;
+					upperBound += upperBound.parseInt(maxInt);
+					currentGame = new OneGame(upperBound);
+				}else{
+					currentGame = new OtherGame(lNum);
+				}
+				levelLbl.setText("Level " + currentGame.getLevel());
+			
 				guesses.clear();
 				clues.clear();
 			}
@@ -140,15 +165,18 @@ public class GameGUI extends JFrame {
 			String guess = textGuess.getText();
 
 			if (currentGame instanceof OtherGame) {
+				
+				try {
 
 				String result = currentGame.checkValue(guess);
-				String clue = currentGame.clue;
+				String clue = currentGame.getClue();
 				guesses.addElement(guess);
 				clues.addElement(clue);
 
 				if (currentGame.gameOver()) {
 					String endMessage = "You win! You took ";
 					String guessesMessage = currentGame.getGuesses() + " guesses.";
+					JOptionPane.showMessageDialog(null, endMessage + guessesMessage);
 
 					int currentLevel = currentGame.getLevel();
 					
@@ -163,21 +191,41 @@ public class GameGUI extends JFrame {
 						}
 					}
 					currentPlayer.levelsList.add(new Levels(currentLevel));
-					
-					JOptionPane.showMessageDialog(null, endMessage + guessesMessage);
 					JOptionPane.showMessageDialog(null, currentPlayer.levelsList.size());
-//					JOptionPane.showMessageDialog(null, currentGame.getLevel());
-//					currentPlayer.addOtherGame(currentGame);
+				}
+				} catch (Exception NumberFormatException){
+					JOptionPane.showMessageDialog(null, "Please enter the guess in the format #,#,.,.,.   ");
 				}
 			}
 			else {
+				
+				currentGame.checkValue(guess);
+				
+				guesses.addElement(guess);
+				clues.addElement(currentGame.getClue());
+				
+				if (currentGame.gameOver()) {
+					String endMessage = "You win! You took ";
+					String guessesMessage = currentGame.getGuesses() + " guesses.";
+					JOptionPane.showMessageDialog(null, endMessage + guessesMessage);
 
-
+					if (currentPlayer.levelsList.size() > 0){
+					
+					for (Levels lvl : currentPlayer.levelsList){
+						
+						if (lvl.level == 1){
+							lvl.addStats(currentGame.getGuesses());
+							return;
+							}
+						}
+					}
+					currentPlayer.levelsList.add(new Levels(1));
+					JOptionPane.showMessageDialog(null, currentPlayer.levelsList.size());
 			}
 
 		}
 	}
-
+}
 	public void createDisplay() {
 
 		JMenuBar mainMenuBar = new JMenuBar(); // Creates the menu bar which houses all menu options.
@@ -200,6 +248,7 @@ public class GameGUI extends JFrame {
 		subMenuNewGame.add(lvlOne);
 		//add action listener for lvlOne
 		lvlOne.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
+		lvlOne.addActionListener(new LvlOneListener());
 		JMenuItem lvlTwo = new JMenuItem("Level 2"); // Create menu item.
 		lvlTwo.addActionListener(new LvlTwoListener()); // Add appropriate listener.
 		lvlTwo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, ActionEvent.ALT_MASK));
@@ -283,4 +332,7 @@ public class GameGUI extends JFrame {
 		
 	}
 	
+	public static void main(String[] args) {
+		GameGUI ui = new GameGUI("Numbers Game");
+	}
 }
