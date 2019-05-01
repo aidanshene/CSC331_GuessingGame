@@ -144,6 +144,12 @@ public class OneGame extends Game {
 		// TODO Auto-generated method stub
 		return this.clue;
 	}
+
+	@Override
+	public int getRand() {
+		// TODO Auto-generated method stub
+		return this.randNumber;
+	}
 		
 	
 }

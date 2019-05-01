@@ -13,4 +13,5 @@ public abstract class Game {
 	
 	public abstract String getClue();
 	
+	public abstract int getRand();
 }

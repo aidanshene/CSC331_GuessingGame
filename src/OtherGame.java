@@ -9,6 +9,7 @@ public class OtherGame extends Game implements IGame{
 	public String clue;	
 	public final int lvl;
 	ArrayList<Integer> answer = new ArrayList<Integer>();
+	int randNumber = 1;
 	
 	public OtherGame(int level) {
 		
@@ -131,6 +132,12 @@ public class OtherGame extends Game implements IGame{
 	public void getInput() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public int getRand() {
+		// TODO Auto-generated method stub
+		return this.randNumber;
 	}
 
 }
