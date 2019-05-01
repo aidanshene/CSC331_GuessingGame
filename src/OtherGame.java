@@ -5,10 +5,9 @@ import java.util.StringTokenizer;
 
 public class OtherGame extends Game implements IGame{
 	//Guesses will be used in statistics
-	private int guesses;
-	private String clue;	
-	private final int lvl;
-	
+	public  int guesses;
+	public String clue;	
+	public final int lvl;
 	ArrayList<Integer> answer = new ArrayList<Integer>();
 	
 	public OtherGame(int level) {
@@ -28,8 +27,6 @@ public class OtherGame extends Game implements IGame{
 		}
 	}
 
-
-	@Override
 	public String checkValue(String input) {
 		// TODO Auto-generated method stub
 		
@@ -91,13 +88,6 @@ public class OtherGame extends Game implements IGame{
 		
 	}
 
-	@Override
-	public void getInput() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
 	public boolean gameOver() {
 		
 		String check = "("+ lvl +"," + lvl+")";
@@ -128,31 +118,10 @@ public class OtherGame extends Game implements IGame{
 	public void setGuesses(int num) {
 		this.guesses = num;
 	}
-	
-	public static void main(String[] args) {
+
+	public void getInput() {
 		// TODO Auto-generated method stub
 		
-		OtherGame test = new OtherGame(3);
-		
-		while (true){
-			
-			Scanner input = new Scanner(System.in);
-				
-			String guess = input.nextLine();
-			
-			System.out.println(test.checkValue(guess));
-		
-			System.out.println(test.clue);
-			
-			if(test.gameOver()) {
-				
-				System.out.println(test.guesses);
-				break;
-			}
-		}
-		
-	
-
 	}
 
 }

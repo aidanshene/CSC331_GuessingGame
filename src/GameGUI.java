@@ -20,13 +20,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 
 public class GameGUI extends JFrame {
 	private static final long serialVersionUID = 70625052682885262L;
 
-	public JPanel display;
+	public JPanel gameDisplay;
+	public JPanel statsDisplay;
 	public DefaultListModel<String> guesses;
 	public DefaultListModel<String> clues;
 	public JTextField textGuess;
@@ -60,7 +59,7 @@ public class GameGUI extends JFrame {
 			playerList.add(currentPlayer);
 			Integer lNum = Integer.parseInt(lvl.getSelectedItem().toString().substring(lvl.getSelectedItem().toString().length()-1));
 			currentGame = new OtherGame(lNum);
-			currentPlayer.addOtherGame(currentGame);
+//			currentPlayer.addOtherGame(currentGame);
 			createDisplay();
 			setVisible(true);
 		}
@@ -70,7 +69,8 @@ public class GameGUI extends JFrame {
 		public void actionPerformed(ActionEvent ae) {
 			currentGame = new OtherGame(2);
 			levelLbl.setText("Level " + currentGame.getLevel());
-			currentPlayer.addOtherGame(currentGame);
+//			currentPlayer.addOtherGame(currentGame);
+			textGuess.setText("");
 			guesses.clear();
 			clues.clear(); }}
 
@@ -78,7 +78,8 @@ public class GameGUI extends JFrame {
 		public void actionPerformed(ActionEvent ae) {
 			currentGame = new OtherGame(3);
 			levelLbl.setText("Level " + currentGame.getLevel());
-			currentPlayer.addOtherGame(currentGame);
+//			currentPlayer.addOtherGame(currentGame);
+			textGuess.setText("");
 			guesses.clear();
 			clues.clear(); }}
 
@@ -87,6 +88,7 @@ public class GameGUI extends JFrame {
 			currentGame = new OtherGame(4);
 			levelLbl.setText("Level " + currentGame.getLevel());
 			currentPlayer.addOtherGame(currentGame);
+			textGuess.setText("");
 			guesses.clear();
 			clues.clear(); }}
 
@@ -95,6 +97,7 @@ public class GameGUI extends JFrame {
 			currentGame = new OtherGame(5);
 			levelLbl.setText("Level " + currentGame.getLevel());
 			currentPlayer.addOtherGame(currentGame);
+			textGuess.setText("");
 			guesses.clear();
 			clues.clear(); }}
 
@@ -126,24 +129,10 @@ public class GameGUI extends JFrame {
 		}
 	}
 	
-	public class ThemeListener implements ActionListener {
+	public class StatsListener implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
-				if(theme.isSelected()) {
-					try {
-		                UIManager.setLookAndFeel("javax.swing.plaf.hifi.HiFiLookAndFeel");
-		            } catch (Exception e) {
-		                e.printStackTrace();
-		            }
-				}
-				if(!theme.isSelected()) {
-					try {
-			            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			        } catch (Exception e) {
-			            e.printStackTrace();
-			        }
-				}
-				SwingUtilities.updateComponentTreeUI(this);
-		} 
+			createStatsDisplay();
+		}
 	}
 
 	public class EnterListener implements ActionListener { // Action listener for the Enter button.
@@ -153,7 +142,7 @@ public class GameGUI extends JFrame {
 			if (currentGame instanceof OtherGame) {
 
 				String result = currentGame.checkValue(guess);
-				String clue = currentGame.getClue();
+				String clue = currentGame.clue;
 				guesses.addElement(guess);
 				clues.addElement(clue);
 
@@ -161,16 +150,20 @@ public class GameGUI extends JFrame {
 					String endMessage = "You win! You took ";
 					String guessesMessage = currentGame.getGuesses() + " guesses.";
 
-					if (currentPlayer.levelsList.contains(currentGame.getLevel())) {
-						int gameLvl = currentGame.getLevel();
-						currentPlayer.levelsList.get(gameLvl).addStats(currentGame.getGuesses());
+					int currentLevel = currentGame.getLevel();
+					
+					if (currentPlayer.levelsList.size() > 0){
+					
+					for (Levels lvl : currentPlayer.levelsList){
+						
+						if (lvl.level == currentLevel){
+							lvl.addStats(currentGame.getGuesses());
+							return;
+							}
+						}
 					}
-					else{
-						Levels lvl = new Levels(currentGame.getLevel());
-						lvl.addStats(currentGame.getGuesses());
-						currentPlayer.levelsList.add(lvl);
-					}
-
+					currentPlayer.levelsList.add(new Levels(currentLevel));
+					
 					JOptionPane.showMessageDialog(null, endMessage + guessesMessage);
 
 					JOptionPane.showMessageDialog(null, currentPlayer.levelsList.size());
@@ -193,8 +186,6 @@ public class GameGUI extends JFrame {
 		mainMenuBar.add(menuNew);
 		JMenu menuStats = new JMenu("Statistics");
 		mainMenuBar.add(menuStats);
-		JMenu menuOther = new JMenu("Other");
-		mainMenuBar.add(menuOther);
 
 		JMenu subMenuNewGame = new JMenu("New Game..."); // Creates and the menu and menu items within "New."
 		menuNew.add(subMenuNewGame);
@@ -227,21 +218,11 @@ public class GameGUI extends JFrame {
 		lvlFive.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_5, ActionEvent.ALT_MASK));
 		subMenuNewGame.add(lvlFive);
 
-		JCheckBoxMenuItem time = new JCheckBoxMenuItem("Time"); // Creates the menu and menu items within "Statistics."
-		menuStats.add(time);
-		JCheckBoxMenuItem numPlays = new JCheckBoxMenuItem("# of Plays");
-		menuStats.add(numPlays);
-		JCheckBoxMenuItem topPlayer = new JCheckBoxMenuItem("Top Player");
-		menuStats.add(topPlayer);
-		JCheckBoxMenuItem mostDifGame = new JCheckBoxMenuItem("Most Difficult Game");
-		menuStats.add(mostDifGame);
-		
-		theme = new JCheckBoxMenuItem("Dark Mode"); // Creates the menu items within "Other."
-		theme.addActionListener(new ThemeListener());
-		menuOther.add(theme);
-
-		display = new JPanel(); // Creates display and sets layout as GridBag, below sets constraints for formatting.
-		display.setLayout(new GridBagLayout());
+		JMenuItem stats = new JMenuItem("Show Stats..."); // Creates the menu and menu items within "Statistics."
+		menuStats.add(stats);
+	
+		gameDisplay = new JPanel(); // Creates display and sets layout as GridBag, below sets constraints for formatting.
+		gameDisplay.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints(); // Sets constraints, must adjust to liking before adding to display.
 
 		guesses = new DefaultListModel<String>(); // Actual list that guesses are stored in.
@@ -251,7 +232,7 @@ public class GameGUI extends JFrame {
 		c.ipady = 300; // Sets height value constraint
 		c.gridx = 0; // Position on grid in x direction
 		c.gridy = 0; // Position on grid in y direction
-		display.add(guessPane, c); // Adds listGuesses to display, adhering to the constraints of the GridBag
+		gameDisplay.add(guessPane, c); // Adds listGuesses to display, adhering to the constraints of the GridBag
 
 		clues = new DefaultListModel<String>();
 		JList<String> listClues = new JList<String>(clues);
@@ -259,7 +240,7 @@ public class GameGUI extends JFrame {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 0;
-		display.add(cluePane, c);
+		gameDisplay.add(cluePane, c);
 
 		textGuess = new JTextField();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -267,7 +248,7 @@ public class GameGUI extends JFrame {
 		c.weightx = 0.5;
 		c.gridx = 0;
 		c.gridy = 1;
-		display.add(textGuess, c);
+		gameDisplay.add(textGuess, c);
 
 		JButton enter = new JButton("Enter");
 		enter.addActionListener(new EnterListener());
@@ -275,25 +256,32 @@ public class GameGUI extends JFrame {
 		c.weightx = 0.5;
 		c.gridx = 1;
 		c.gridy = 1;
-		display.add(enter, c);
+		gameDisplay.add(enter, c);
 
 		playerLbl = new JLabel(currentPlayer.getPlayerName());
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 2;
-		display.add(playerLbl, c); // End of GridBag formatting.
+		gameDisplay.add(playerLbl, c); // End of GridBag formatting.
 
 		levelLbl = new JLabel("Level " + currentGame.getLevel());
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 2;
-		display.add(levelLbl, c); // End of GridBag formatting.
+		gameDisplay.add(levelLbl, c); // End of GridBag formatting.
 
-		add(display);
+		add(gameDisplay);
 		setJMenuBar(mainMenuBar);
 	}
 	
 	public void createStatsDisplay() {
+		JFrame statsDisplay = new JFrame("Statistics");
+		GridBagConstraints c = new GridBagConstraints(); // Sets constraints, must adjust to liking before adding to display.
+		statsDisplay.setSize(500, 500);
+		statsDisplay.setLocation(500, 500);
+		statsDisplay.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		statsDisplay.setVisible(true);
 		
 	}
+	
 }
