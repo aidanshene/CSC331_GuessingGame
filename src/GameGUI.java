@@ -71,13 +71,9 @@ public class GameGUI extends JFrame {
 				currentGame = new OtherGame(lNum);
 			}
 			createDisplay();
-			
 			setVisible(true);
 		}
 	}
-	
-	
-	
 	public class LvlOneListener implements ActionListener { // Action listener for New Game -> Level 1
 		public void actionPerformed(ActionEvent ae) {
 			String maxInt = JOptionPane.showInputDialog("Please enter the upper bound: ");
@@ -232,10 +228,9 @@ public class GameGUI extends JFrame {
 					JOptionPane.showMessageDialog(null, "Please enter valid input");
 					
 				}
-
+			}
 		}
 	}
-}
 	public void createDisplay() {
 		
 		JMenuBar mainMenuBar = new JMenuBar(); // Creates the menu bar which houses all menu options.
@@ -279,10 +274,8 @@ public class GameGUI extends JFrame {
 		JMenuItem stats = new JMenuItem("Show Stats..."); // Creates the menu and menu items within "Statistics."
 		menuStats.add(stats);
 		
-		gameDisplay = new JPanel();
-		gameDisplay.setLayout(new GridBagLayout());
+		gameDisplay = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints(); // Sets constraints, must adjust to liking before adding to display.
-
 
 		JLabel guessesLbl = new JLabel("Guesses:");
 		guessesLbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -350,6 +343,7 @@ public class GameGUI extends JFrame {
 		c.gridy = 3;
 		gameDisplay.add(levelLbl, c); // End of GridBag formatting.
 
+
 		stats.addActionListener(new StatsListener());
 		
 		
@@ -372,4 +366,5 @@ public class GameGUI extends JFrame {
 	public static void main(String[] args) {
 		GameGUI ui = new GameGUI("Numbers Game");
 	}
+
 }
