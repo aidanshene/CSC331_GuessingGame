@@ -1,3 +1,5 @@
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.ButtonGroup;
@@ -14,18 +16,25 @@ public class StatsGUI extends JFrame {
 	public StatsGUI(String title) {
 		
 		super(title);
-		setSize(400,400);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(500,425);
+//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new GridLayout(1,3));
+		setResizable(false);
 		
 	}
 	
 	
 	public void addPanels() {
+		
+
+		
+		
 		DefaultListModel<String> stats;
 		stats = new DefaultListModel<String>();
 		JScrollPane scroll = new JScrollPane();
 		JList<String> statsList = new JList<String>(stats);
+		
+		scroll.setSize(100, 100);
 		
 		JPanel leftPanel = new JPanel();
 		JPanel midPanel = new JPanel();
@@ -47,6 +56,12 @@ public class StatsGUI extends JFrame {
 		
 		leftPanel.setLayout(new GridLayout(2,1));
 		midPanel.setLayout(new GridLayout(5,1));
+		rightPanel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.ipady = 350;
+		c.ipadx = 150;
 		
 		JRadioButton level1 = new JRadioButton("Level 1");
 		JRadioButton level2 = new JRadioButton("Level 2");
@@ -66,12 +81,8 @@ public class StatsGUI extends JFrame {
 		midPanel.add(level4);
 		midPanel.add(level5);
 		
-		
-		
-		rightPanel.add(scroll);
+		rightPanel.add(scroll,c);
 		scroll.add(statsList);
-		
-			
 		
 		add(leftPanel);
 		add(midPanel);
