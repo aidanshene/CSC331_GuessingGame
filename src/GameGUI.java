@@ -1,8 +1,6 @@
-<<<<<<< HEAD
 
-=======
 import java.awt.Font;
->>>>>>> 1b4e52a0b70c7c5a9cd58d312b287b299a1bc695
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -78,13 +76,9 @@ public class GameGUI extends JFrame {
 		}
 	}
 	
-<<<<<<< HEAD
 	
 	
-	public class LvlOneListener implements ActionListener{
-=======
 	public class LvlOneListener implements ActionListener { // Action listener for New Game -> Level 1
->>>>>>> 1b4e52a0b70c7c5a9cd58d312b287b299a1bc695
 		public void actionPerformed(ActionEvent ae) {
 			String maxInt = JOptionPane.showInputDialog("Please enter the upper bound: ");
 			Integer upperBound = 0;
@@ -126,6 +120,14 @@ public class GameGUI extends JFrame {
 			textGuess.setText("");
 			guesses.clear();
 			clues.clear(); }}
+	
+	public class StatsListener implements ActionListener{
+		public void actionPerformed(ActionEvent ae) {
+			StatsGUI statsDisplay = new StatsGUI("Statistics");
+			statsDisplay.addPanels();
+		}
+		
+	}
 
 	public class NewPlayerListener implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
@@ -163,11 +165,6 @@ public class GameGUI extends JFrame {
 		}
 	}
 	
-	public class StatsListener implements ActionListener {
-		public void actionPerformed(ActionEvent ae) { 
-   
-		}
-	}
 
 	public class EnterListener implements ActionListener { // Action listener for the Enter button.
 		public void actionPerformed(ActionEvent ae) {
@@ -285,8 +282,7 @@ public class GameGUI extends JFrame {
 		gameDisplay = new JPanel();
 		gameDisplay.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints(); // Sets constraints, must adjust to liking before adding to display.
-<<<<<<< HEAD
-=======
+
 
 		JLabel guessesLbl = new JLabel("Guesses:");
 		guessesLbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -303,7 +299,7 @@ public class GameGUI extends JFrame {
 		c.gridx = 1;
 		c.gridy = 0;
 		gameDisplay.add(cluesLbl, c);
->>>>>>> 1b4e52a0b70c7c5a9cd58d312b287b299a1bc695
+
 		
 		guesses = new DefaultListModel<String>(); // Actual list that guesses are stored in.
 		JList<String> listGuesses = new JList<String>(guesses); // listGuesses component contains the guesses list model.
@@ -354,9 +350,13 @@ public class GameGUI extends JFrame {
 		c.gridy = 3;
 		gameDisplay.add(levelLbl, c); // End of GridBag formatting.
 
+		stats.addActionListener(new StatsListener());
+		
+		
+		add(gameDisplay);
 		setJMenuBar(mainMenuBar);
 	}
-<<<<<<< HEAD
+
 	
 	
 	public void createStatsDisplay() {
@@ -372,7 +372,4 @@ public class GameGUI extends JFrame {
 	public static void main(String[] args) {
 		GameGUI ui = new GameGUI("Numbers Game");
 	}
-=======
-
->>>>>>> 1b4e52a0b70c7c5a9cd58d312b287b299a1bc695
 }
