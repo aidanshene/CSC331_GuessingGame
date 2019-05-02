@@ -60,6 +60,10 @@ public class Statistics {
 		PlayerNames = TempPlayerNames;
 	}
 	
+	public ArrayList<Player> GetPlayerList() {
+		return this.MasterPlayerList;
+	}
+	
 	public void SaveStatistics() throws IOException {
 		
 		ArrayList<String> FormattedStats = new ArrayList<String>();
