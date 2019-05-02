@@ -9,10 +9,13 @@ import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -226,9 +229,9 @@ public class GameGUI extends JFrame {
 			}
 				}catch(Exception NumberFormatException) {
 					JOptionPane.showMessageDialog(null, "Please enter valid input");
-					
 				}
 			}
+			textGuess.setText("");
 		}
 	}
 	public void createDisplay() {
@@ -321,6 +324,7 @@ public class GameGUI extends JFrame {
 
 		JButton enter = new JButton("Enter");
 		enter.addActionListener(new EnterListener());
+		getRootPane().setDefaultButton(enter);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.5;
 		c.gridx = 1;
@@ -349,18 +353,6 @@ public class GameGUI extends JFrame {
 		
 		add(gameDisplay);
 		setJMenuBar(mainMenuBar);
-	}
-
-	
-	
-	public void createStatsDisplay() {
-		JFrame statsDisplay = new JFrame("Statistics");
-		GridBagConstraints c = new GridBagConstraints(); // Sets constraints, must adjust to liking before adding to display.
-		statsDisplay.setSize(500, 500);
-		statsDisplay.setLocation(500, 500);
-		statsDisplay.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		statsDisplay.setVisible(true);
-		
 	}
 	
 	public static void main(String[] args) {
