@@ -1,2 +1,5 @@
 /GameGUI$1.class
-/StatsGUI$currentPlayerStatsListener.class
+/ClearListener.class
+/EnterListener.class
+/GameGUI$ClearListener.class
+/GameGUI$EnterListener.class
