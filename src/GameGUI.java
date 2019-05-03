@@ -143,7 +143,7 @@ public class GameGUI extends JFrame {
 			while(name.getText().trim().equals("") || name.getText().length() < 3 || name.getText().length() > 15 || lvl.getSelectedIndex() == -1) {
 				int dialogResult = JOptionPane.showConfirmDialog(null, fields, "Enter name & select difficulty", JOptionPane.OK_CANCEL_OPTION); // Prompts user for a player name before starting the game.
 				if(dialogResult == JOptionPane.CANCEL_OPTION)
-					System.exit(0);
+					return;
 				else if(name.getText().trim().equals("") || name.getText().length() < 3 || name.getText().length() > 15) {
 					JOptionPane.showMessageDialog(null, "Please create a valid name (3-15 characters).");
 					name.setText("");

@@ -4,7 +4,9 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
 import javax.swing.DefaultListModel;
@@ -15,7 +17,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 
 public class StatsGUI extends JFrame {
-
+	private static final long serialVersionUID = -6194704301528590576L;
+	
 	ArrayList<Player> playerList;
 	Player currentPlayer;
 
@@ -55,8 +58,10 @@ public class StatsGUI extends JFrame {
 
 			System.out.println("Action Listnener engaged");
 			System.out.println(level1.isSelected());
-
-			if(level1.isSelected() == false) {
+			
+			JRadioButton check = getSelectedRadioButton(midBG);
+			System.out.println(check.getText());
+			if(check.getText().equals(level1.getText())) {
 
 				String number = level1.getText().substring(6,7);
 				Integer num=0;
@@ -68,30 +73,24 @@ public class StatsGUI extends JFrame {
 				for(String[] stringArray : dataDump) {
 					System.out.println(stringArray[1]);
 					stats.addElement(stringArray[1]);
-
 				}
 
-
-
-
-
-
-			}else if (level2.isSelected()) {
+			}else if (check.getText().equals(level2.getText())) {
 				String number = level2.getText().substring(6,7);
 				Integer num=0;
 				num += num.parseInt(number);
 				ArrayList<String[]> dataDump = currentPlayerScoreKeeper.UniversalGetter(num);
-			}else if(level3.isSelected()) {
+			}else if(check.getText().equals(level3.getText())) {
 				String number = level3.getText().substring(6,7);
 				Integer num=0;
 				num += num.parseInt(number);
 				ArrayList<String[]> dataDump = currentPlayerScoreKeeper.UniversalGetter(num);
-			}else if (level4.isSelected()) {
+			}else if (check.getText().equals(level4.getText())) {
 				String number = level4.getText().substring(6,7);
 				Integer num=0;
 				num += num.parseInt(number);
 				ArrayList<String[]> dataDump = currentPlayerScoreKeeper.UniversalGetter(num);
-			}else if (level5.isSelected()) {
+			}else if (check.getText().equals(level5.getText())) {
 				String number = level5.getText().substring(6,7);
 				Integer num=0;
 				num += num.parseInt(number);
@@ -103,16 +102,23 @@ public class StatsGUI extends JFrame {
 
 	}
 
-
+	private JRadioButton getSelectedRadioButton(ButtonGroup bg) {
+		Enumeration<AbstractButton> abs = bg.getElements();
+		JRadioButton radButton = null;
+		while(abs.hasMoreElements()) {
+			radButton = (JRadioButton) abs.nextElement();
+			if(radButton.isSelected())
+				break;
+		}
+		return radButton;
+	
+	}
 
 	public void addPanels() {
 
-		DefaultListModel<String> stats;
 		stats = new DefaultListModel<String>();
-		JScrollPane scroll = new JScrollPane();
 		JList<String> statsList = new JList<String>(stats);
-
-		scroll.setSize(100, 100);
+		JScrollPane scroll = new JScrollPane(statsList);
 
 		JPanel leftPanel = new JPanel();
 		JPanel midPanel = new JPanel();
@@ -136,6 +142,8 @@ public class StatsGUI extends JFrame {
 		GridBagConstraints c = new GridBagConstraints();
 
 		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
 		c.ipady = 350;
 		c.ipadx = 150;
 
@@ -158,11 +166,9 @@ public class StatsGUI extends JFrame {
 		midPanel.add(level5);
 
 		rightPanel.add(scroll,c);
-		scroll.add(statsList);
-
 
 		level1.addActionListener(new currentPlayerStatsListener());
-
+		level2.addActionListener(new currentPlayerStatsListener());
 
 		add(leftPanel);
 		add(midPanel);
