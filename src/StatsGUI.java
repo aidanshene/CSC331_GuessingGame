@@ -9,6 +9,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -29,10 +30,11 @@ public class StatsGUI extends JFrame {
 	JRadioButton level5 = new JRadioButton("Level 5");
 	
 	
-	DefaultListModel<String> stats= new DefaultListModel<String>();
+	DefaultListModel<String> stats = new DefaultListModel<String>();
 	JScrollPane scroll = new JScrollPane();
 	JList<String> statsList = new JList<String>(stats);
 	
+
 	public StatsGUI(String title, ArrayList<Player> playersList, Player currentPlayer) {
 		
 		super(title);
@@ -67,12 +69,9 @@ public class StatsGUI extends JFrame {
 				
 				for(String[] stringArray : dataDump) {
 					System.out.println(stringArray[1]);
-					stats.addElement(stringArray[1]);
+					stats.addElement("New Element");
 					
 				}
-				
-				
-				
 				
 				
 				
@@ -111,6 +110,7 @@ public class StatsGUI extends JFrame {
 		stats = new DefaultListModel<String>();
 		JScrollPane scroll = new JScrollPane();
 		JList<String> statsList = new JList<String>(stats);
+		scroll.add(statsList);
 		
 		scroll.setSize(100, 100);
 		
@@ -158,12 +158,9 @@ public class StatsGUI extends JFrame {
 		midPanel.add(level5);
 		
 		rightPanel.add(scroll,c);
-		scroll.add(statsList);
-		
 		
 		level1.addActionListener(new currentPlayerStatsListener());
-		
-		
+			
 		add(leftPanel);
 		add(midPanel);
 		add(rightPanel);
