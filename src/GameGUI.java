@@ -34,7 +34,7 @@ public class GameGUI extends JFrame {
 	public JLabel playerLbl;
 	public JLabel levelLbl;
 
-	public Statistics statsOBJ;
+//	public Statistics statsOBJ;
 
 	public JTextField name = new JTextField();
 	public String[] levels = {"Level 1", "Level 2", "Level 3", "Level 4", "Level 5"};
@@ -43,16 +43,16 @@ public class GameGUI extends JFrame {
 
 	public Game currentGame;
 	public Player currentPlayer;
-	public ArrayList<Player> playerList;
+	public ArrayList<Player> playerList = new ArrayList<Player>();
 
 	public GameGUI(String title) throws IOException {
 		super(title);
-		statsOBJ = new Statistics();
+//		statsOBJ = new Statistics();
 		setSize(500, 500);
 		setLocation(500, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		playerList = statsOBJ.GetPlayerList();
+//		playerList = statsOBJ.GetPlayerList();
 
 		lvl.setSelectedIndex(-1);
 		while(name.getText().trim().equals("") || name.getText().length() < 3 || name.getText().length() > 15 || lvl.getSelectedIndex() == -1) {
@@ -70,6 +70,7 @@ public class GameGUI extends JFrame {
 		}
 		currentPlayer = new Player(name.getText());
 		playerList.add(currentPlayer);
+		
 		Integer lNum = Integer.parseInt(lvl.getSelectedItem().toString().substring(lvl.getSelectedItem().toString().length()-1));
 		if (lNum == 1) {
 			String maxInt = JOptionPane.showInputDialog("Please enter the upper bound: ");
@@ -130,7 +131,7 @@ public class GameGUI extends JFrame {
 
 	public class StatsListener implements ActionListener{
 		public void actionPerformed(ActionEvent ae) {
-			StatsGUI statsDisplay = new StatsGUI("Statistics", statsOBJ.MasterPlayerList, currentPlayer);
+			StatsGUI statsDisplay = new StatsGUI("Statistics", playerList, currentPlayer);
 			statsDisplay.addPanels();
 		}
 
@@ -375,19 +376,19 @@ public class GameGUI extends JFrame {
 
 		stats.addActionListener(new StatsListener());
 
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				statsOBJ.CloseCurrentPlayer(currentPlayer);
-				currentPlayer = statsOBJ.NewPlayer( "Dumbo" );
-				try {
-					statsOBJ.SaveStatistics();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-
-		});
+//		addWindowListener(new WindowAdapter() {
+//			public void windowClosing(WindowEvent e) {
+//				statsOBJ.CloseCurrentPlayer(currentPlayer);
+//				currentPlayer = statsOBJ.NewPlayer( "Dumbo" );
+//				try {
+//					statsOBJ.SaveStatistics();
+//				} catch (IOException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
+//			}
+//
+//		});
 
 
 		add(gameDisplay);

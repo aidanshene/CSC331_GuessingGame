@@ -5,10 +5,10 @@ public class Levels {
 	ArrayList<Integer> scores = new ArrayList<Integer>();
 	
 	Integer level;
-	int lowestScore = 100;
-	int highestScore = 0;
-	int totalGuesses = 0;
-	double avgGuesses;
+	Integer lowestScore = 100;
+	Integer highestScore = 0;
+	Integer totalGuesses = 0;
+	double avgGuesses = 0.0;
 	
 	public Levels(int level) {
 		this.level = level;
@@ -37,8 +37,24 @@ public class Levels {
 		}
 	}
 	
-	public void getAverage() {
-		avgGuesses = this.totalGuesses / scores.size();	
+	public double getAverage() {
+		
+		totalGuesses = 0;
+		
+		for(int s : scores) {
+			totalGuesses = totalGuesses + s;
+		}
+	
+		
+		int size = scores.size();
+		
+		Double dbl = 0.0;
+		
+		dbl += size;
+		
+		avgGuesses = totalGuesses / dbl;
+		
+		return avgGuesses;
 	}
 	
 

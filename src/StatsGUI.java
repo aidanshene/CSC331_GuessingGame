@@ -19,12 +19,26 @@ import javax.swing.JScrollPane;
 
 public class StatsGUI extends JFrame {
 	private static final long serialVersionUID = -6194704301528590576L;
+	
+	
+	int globalHighest = 0;
+	String highestUser= "";
+	int globalLowest = 100;
+	String lowestUser= "";
+	double globalLowestAverage = 100.0;
+	String lowestAvgUser= "";
+	double globalHighestAverage = 0.0;
+	String highestAvgUser= "";
 
 	ArrayList<Player> playerList;
 	Player currentPlayer;
 
 	ButtonGroup leftBG = new ButtonGroup();
 	ButtonGroup midBG = new ButtonGroup();
+	
+	JRadioButton currentUserButt = new JRadioButton("Current Player Stats");
+	JRadioButton globalButt = new JRadioButton("All Players Stats");
+
 
 	JRadioButton level1 = new JRadioButton("Level 1");
 	JRadioButton level2 = new JRadioButton("Level 2");
@@ -55,49 +69,396 @@ public class StatsGUI extends JFrame {
 
 	public class currentPlayerStatsListener implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
+			
+			
+			JRadioButton check = getSelectedRadioButton(leftBG);
+			
+			if(check.getText().equals(currentUserButt.getText())) {
 
 			ScoreKeeper currentPlayerScoreKeeper = new ScoreKeeper(currentPlayer);
 
 			System.out.println("Action Listnener engaged");
 			System.out.println(level1.isSelected());
 
-			JRadioButton check = getSelectedRadioButton(midBG);
-			System.out.println(check.getText());
-			if(check.getText().equals(level1.getText())) {
+			JRadioButton levelCheck = getSelectedRadioButton(midBG);
+			System.out.println(levelCheck.getText());
+			if(levelCheck.getText().equals(level1.getText())) {
+				
+				stats.clear();
 
 				String number = level1.getText().substring(6,7);
 				Integer num=0;
 				num += num.parseInt(number);
-
-
-				ArrayList<String[]> dataDump = currentPlayerScoreKeeper.UniversalGetter(num);
-
-				for(String[] stringArray : dataDump) {
-					System.out.println(stringArray[1]);
-					stats.addElement(stringArray[1]);
+				
+				stats.addElement(currentPlayer.getPlayerName());
+				
+				for(Levels l : currentPlayer.levelsList) {
+					
+					if (l.level == 1) {
+						stats.addElement("Level 1: \n");
+						stats.addElement("Highest Score: " + l.highestScore.toString());
+						stats.addElement("Lowest Score: " + l.lowestScore.toString());
+						stats.addElement("Average Guesses: " + l.getAverage());
+					}
+					
 				}
 
 
-			}else if (check.getText().equals(level2.getText())) {
+			}else if (levelCheck.getText().equals(level2.getText())) {
+				
+				stats.clear();
+				
 				String number = level2.getText().substring(6,7);
 				Integer num=0;
 				num += num.parseInt(number);
-				ArrayList<String[]> dataDump = currentPlayerScoreKeeper.UniversalGetter(num);
-			}else if(check.getText().equals(level3.getText())) {
+				
+
+				stats.addElement(currentPlayer.getPlayerName());
+				
+				for(Levels l : currentPlayer.levelsList) {
+					
+					if (l.level == 2) {
+						stats.addElement("Level 2: \n");
+						stats.addElement("Highest Score: " + l.highestScore.toString());
+						stats.addElement("Lowest Score: " + l.lowestScore.toString());
+						stats.addElement("Average Guesses: " + l.getAverage());
+					}
+					
+				}			
+				
+			}else if(levelCheck.getText().equals(level3.getText())) {
+				stats.clear();
+				
 				String number = level3.getText().substring(6,7);
 				Integer num=0;
 				num += num.parseInt(number);
-				ArrayList<String[]> dataDump = currentPlayerScoreKeeper.UniversalGetter(num);
-			}else if (check.getText().equals(level4.getText())) {
+				
+				stats.addElement(currentPlayer.getPlayerName());
+				
+				for(Levels l : currentPlayer.levelsList) {
+					
+					if (l.level == 3) {
+						stats.addElement("Level 3: \n");
+						stats.addElement("Highest Score: " + l.highestScore.toString());
+						stats.addElement("Lowest Score: " + l.lowestScore.toString());
+						stats.addElement("Average Guesses: " + l.getAverage());
+					}
+					
+				}
+				
+				
+				
+			}else if (levelCheck.getText().equals(level4.getText())) {
+				stats.clear();
 				String number = level4.getText().substring(6,7);
 				Integer num=0;
 				num += num.parseInt(number);
-				ArrayList<String[]> dataDump = currentPlayerScoreKeeper.UniversalGetter(num);
-			}else if (check.getText().equals(level5.getText())) {
+				
+				stats.addElement(currentPlayer.getPlayerName());
+				
+				for(Levels l : currentPlayer.levelsList) {
+					
+					if (l.level == 4) {
+						stats.addElement("Level 4: \n");
+						stats.addElement("Highest Score: " + l.highestScore.toString());
+						stats.addElement("Lowest Score: " + l.lowestScore.toString());
+						stats.addElement("Average Guesses: " + l.getAverage());
+					}
+					
+				}
+				
+				
+			}else if (levelCheck.getText().equals(level5.getText())) {
+				stats.clear();
 				String number = level5.getText().substring(6,7);
 				Integer num=0;
 				num += num.parseInt(number);
-				ArrayList<String[]> dataDump = currentPlayerScoreKeeper.UniversalGetter(num);
+				
+				
+				stats.addElement(currentPlayer.getPlayerName());
+				
+				for(Levels l : currentPlayer.levelsList) {
+					
+					if (l.level == 5) {
+						stats.addElement("Level 5: \n");
+						stats.addElement("Highest Score: " + l.highestScore.toString());
+						stats.addElement("Lowest Score: " + l.lowestScore.toString());
+						stats.addElement("Average Guesses: " + l.getAverage());
+					}
+					
+				}	
+			}
+			
+			}else if(check.getText().equals(globalButt.getText())){
+				
+				System.out.println("Global Butt touched");
+				
+				JRadioButton levelCheck = getSelectedRadioButton(midBG);
+				System.out.println(levelCheck.getText());
+				
+				
+				if(levelCheck.getText().equals(level1.getText())) {
+					
+					stats.clear();
+					
+//					globalHighest = 0;
+//					highestUser= "";
+//					globalLowest = 100;
+//					lowestUser= "";
+//					globalLowestAverage = 100.0;
+//					lowestAvgUser= "";
+//					globalHighestAverage = 0.0;
+//					highestAvgUser= "";
+
+					String number = level1.getText().substring(6,7);
+					Integer num=0;
+					num += num.parseInt(number);
+					
+					
+					System.out.println(playerList.size());
+					
+					for(Player p : playerList) {
+						for(Levels lvl : p.levelsList) {
+							if(lvl.level == 1) {
+								System.out.println(p.getPlayerName());
+								if(lvl.highestScore > globalHighest) {
+									globalHighest = lvl.highestScore;
+									highestUser = p.getPlayerName();
+									System.out.println("player name inside for each" + p.getPlayerName());
+									System.out.println("new high score" + lvl.highestScore);
+								}
+								if(lvl.lowestScore < globalLowest) {
+									globalLowest = lvl.lowestScore;
+									lowestUser = p.getPlayerName();
+								}
+								if(lvl.getAverage() < globalLowestAverage) {
+									globalLowestAverage = lvl.getAverage();
+									lowestAvgUser = p.getPlayerName();
+								}
+								if(lvl.getAverage() > globalHighestAverage) {
+									globalHighestAverage = lvl.getAverage();
+									highestAvgUser = p.getPlayerName();
+								}
+								
+							}
+						}
+					}
+					
+					stats.addElement("Level 1");
+					stats.addElement("Worst Score: \n" + highestUser +" - "+ globalHighest);
+					stats.addElement("Best Score: \n" + lowestUser + " - " + globalLowest);
+					stats.addElement("Lowest Average: \n" + lowestAvgUser + " - " + globalLowestAverage);
+					stats.addElement("Highest Average: \n" + highestAvgUser + " - "+ globalHighestAverage);
+					
+					
+					
+
+				}else if (levelCheck.getText().equals(level2.getText())) {
+					
+					stats.clear();
+					
+					globalHighest = 0;
+					highestUser= "";
+					globalLowest = 100;
+					lowestUser= "";
+					globalLowestAverage = 100.0;
+					lowestAvgUser= "";
+					globalHighestAverage = 0.0;
+					highestAvgUser= "";
+
+					
+
+					String number = level2.getText().substring(6,7);
+					Integer num=0;
+					num += num.parseInt(number);
+					
+					
+					
+					for(Player p : playerList) {
+						for(Levels lvl : p.levelsList) {
+							if(lvl.level == 2) {
+								if(lvl.highestScore > globalHighest) {
+									globalHighest = lvl.highestScore;
+									highestUser = p.getPlayerName();
+								}
+								if(lvl.lowestScore < globalLowest) {
+									globalLowest = lvl.lowestScore;
+									lowestUser = p.getPlayerName();
+								}
+								if(lvl.getAverage() < globalLowestAverage) {
+									globalLowestAverage = lvl.getAverage();
+									lowestAvgUser = p.getPlayerName();
+								}
+								if(lvl.getAverage() > globalHighestAverage) {
+									globalHighestAverage = lvl.getAverage();
+									highestAvgUser = p.getPlayerName();
+								}
+								
+							}
+						}
+					}
+					
+					stats.addElement("Level 2");
+					stats.addElement("Worst Score: \n" + highestUser +" - "+ globalHighest);
+					stats.addElement("Best Score: \n" + lowestUser + " - " + globalLowest);
+					stats.addElement("Lowest Average: \n" + lowestAvgUser + " - " + globalLowestAverage);
+					stats.addElement("Highest Average: \n" + highestAvgUser + " - "+ globalHighestAverage);
+				
+					
+				}else if(levelCheck.getText().equals(level3.getText())) {
+					stats.clear();
+					
+					globalHighest = 0;
+					highestUser= "";
+					globalLowest = 100;
+					lowestUser= "";
+					globalLowestAverage = 100.0;
+					lowestAvgUser= "";
+					globalHighestAverage = 0.0;
+					highestAvgUser= "";
+
+					
+					
+					String number = level3.getText().substring(6,7);
+					Integer num=0;
+					num += num.parseInt(number);
+					
+					
+					
+					for(Player p : playerList) {
+						for(Levels lvl : p.levelsList) {
+							if(lvl.level == 3) {
+								if(lvl.highestScore > globalHighest) {
+									globalHighest = lvl.highestScore;
+									highestUser = p.getPlayerName();
+								}
+								if(lvl.lowestScore < globalLowest) {
+									globalLowest = lvl.lowestScore;
+									lowestUser = p.getPlayerName();
+								}
+								if(lvl.getAverage() < globalLowestAverage) {
+									globalLowestAverage = lvl.getAverage();
+									lowestAvgUser = p.getPlayerName();
+								}
+								if(lvl.getAverage() > globalHighestAverage) {
+									globalHighestAverage = lvl.getAverage();
+									highestAvgUser = p.getPlayerName();
+								}
+								
+							}
+						}
+					}
+					
+					stats.addElement("Level 3");
+					stats.addElement("Worst Score: \n" + highestUser +" - "+ globalHighest);
+					stats.addElement("Best Score: \n" + lowestUser + " - " + globalLowest);
+					stats.addElement("Lowest Average: \n" + lowestAvgUser + " - " + globalLowestAverage);
+					stats.addElement("Highest Average: \n" + highestAvgUser + " - "+ globalHighestAverage);
+					
+					
+				}else if (levelCheck.getText().equals(level4.getText())) {
+					stats.clear();
+					
+					globalHighest = 0;
+					highestUser= "";
+					globalLowest = 100;
+					lowestUser= "";
+					globalLowestAverage = 100.0;
+					lowestAvgUser= "";
+					globalHighestAverage = 0.0;
+					highestAvgUser= "";
+
+					
+					
+					String number = level4.getText().substring(6,7);
+					Integer num=0;
+					num += num.parseInt(number);
+					
+					
+					
+					for(Player p : playerList) {
+						for(Levels lvl : p.levelsList) {
+							if(lvl.level == 4) {
+								if(lvl.highestScore > globalHighest) {
+									globalHighest = lvl.highestScore;
+									highestUser = p.getPlayerName();
+								}
+								if(lvl.lowestScore < globalLowest) {
+									globalLowest = lvl.lowestScore;
+									lowestUser = p.getPlayerName();
+								}
+								if(lvl.getAverage() < globalLowestAverage) {
+									globalLowestAverage = lvl.getAverage();
+									lowestAvgUser = p.getPlayerName();
+								}
+								if(lvl.getAverage() > globalHighestAverage) {
+									globalHighestAverage = lvl.getAverage();
+									highestAvgUser = p.getPlayerName();
+								}
+								
+							}
+						}
+					}
+					
+					stats.addElement("Level 4");
+					stats.addElement("Worst Score: \n" + highestUser +" - "+ globalHighest);
+					stats.addElement("Best Score: \n" + lowestUser + " - " + globalLowest);
+					stats.addElement("Lowest Average: \n" + lowestAvgUser + " - " + globalLowestAverage);
+					stats.addElement("Highest Average: \n" + highestAvgUser + " - "+ globalHighestAverage);
+					
+					
+				}else if (levelCheck.getText().equals(level5.getText())) {
+					stats.clear();
+					
+					globalHighest = 0;
+					highestUser= "";
+					globalLowest = 100;
+					lowestUser= "";
+					globalLowestAverage = 100.0;
+					lowestAvgUser= "";
+					globalHighestAverage = 0.0;
+					highestAvgUser= "";
+
+					
+					
+					String number = level5.getText().substring(6,7);
+					Integer num=0;
+					num += num.parseInt(number);
+					
+					
+					
+					for(Player p : playerList) {
+						for(Levels lvl : p.levelsList) {
+							if(lvl.level == 5) {
+								if(lvl.highestScore > globalHighest) {
+									globalHighest = lvl.highestScore;
+									highestUser = p.getPlayerName();
+								}
+								if(lvl.lowestScore < globalLowest) {
+									globalLowest = lvl.lowestScore;
+									lowestUser = p.getPlayerName();
+								}
+								if(lvl.getAverage() < globalLowestAverage) {
+									globalLowestAverage = lvl.getAverage();
+									lowestAvgUser = p.getPlayerName();
+								}
+								if(lvl.getAverage() > globalHighestAverage) {
+									globalHighestAverage = lvl.getAverage();
+									highestAvgUser = p.getPlayerName();
+								}
+								
+							}
+						}
+					}
+					
+					stats.addElement("Level 5");
+					stats.addElement("Worst Score: \n" + highestUser +" - "+ globalHighest);
+					stats.addElement("Best Score: \n" + lowestUser + " - " + globalLowest);
+					stats.addElement("Lowest Average: \n" + lowestAvgUser + " - " + globalLowestAverage);
+					stats.addElement("Highest Average: \n" + highestAvgUser + " - "+ globalHighestAverage);
+					
+				}
+				
 			}
 
 
@@ -128,9 +489,6 @@ public class StatsGUI extends JFrame {
 		JPanel rightPanel = new JPanel();
 
 		ButtonGroup rightBG = new ButtonGroup();
-
-		JRadioButton currentUserButt = new JRadioButton("Current Player Stats");
-		JRadioButton globalButt = new JRadioButton("All Players Stats");
 
 		leftBG.add(currentUserButt);
 		leftBG.add(globalButt);
@@ -172,6 +530,9 @@ public class StatsGUI extends JFrame {
 
 		level1.addActionListener(new currentPlayerStatsListener());
 		level2.addActionListener(new currentPlayerStatsListener());
+		level3.addActionListener(new currentPlayerStatsListener());
+		level4.addActionListener(new currentPlayerStatsListener());
+		level5.addActionListener(new currentPlayerStatsListener());
 
 		add(leftPanel);
 		add(midPanel);
