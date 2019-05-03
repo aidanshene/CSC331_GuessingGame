@@ -1,2 +1,6 @@
 /ScoreKeeper.class
 /GameGUI$1.class
+/ClearListener.class
+/EnterListener.class
+/GameGUI$ClearListener.class
+/GameGUI$EnterListener.class

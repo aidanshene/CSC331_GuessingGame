@@ -1,21 +1,13 @@
-
 import java.awt.Font;
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-
-import javax.swing.AbstractAction;
-import javax.swing.DefaultListModel;
-import javax.swing.InputMap;
+import javax.swing.DefaultListModel;	
 import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -38,7 +30,6 @@ public class GameGUI extends JFrame {
 	public JTextField textGuess;
 	public JLabel playerLbl;
 	public JLabel levelLbl;
-	public JCheckBoxMenuItem theme;
 	
 	public JTextField name = new JTextField();
 	public String[] levels = {"Level 1", "Level 2", "Level 3", "Level 4", "Level 5"};
@@ -58,24 +49,32 @@ public class GameGUI extends JFrame {
 		playerList = new ArrayList<Player>();
 		
 		lvl.setSelectedIndex(-1);
-		int dialogResult = JOptionPane.showConfirmDialog(null, fields, "Enter name & select difficulty", JOptionPane.OK_CANCEL_OPTION); // Prompts user for a player name before starting the game.
-		if(dialogResult == JOptionPane.CANCEL_OPTION)
-			System.exit(0);
-		else {
-			currentPlayer = new Player(name.getText());
-			playerList.add(currentPlayer);
-			Integer lNum = Integer.parseInt(lvl.getSelectedItem().toString().substring(lvl.getSelectedItem().toString().length()-1));
-			if (lNum == 1) {
-				String maxInt = JOptionPane.showInputDialog("Please enter the upper bound: ");
-				Integer upperBound = 0;
-				upperBound += upperBound.parseInt(maxInt);
-				currentGame = new OneGame(upperBound);
-			}else{
-				currentGame = new OtherGame(lNum);
+		while(name.getText().trim().equals("") || name.getText().length() < 3 || name.getText().length() > 15 || lvl.getSelectedIndex() == -1) {
+			int dialogResult = JOptionPane.showConfirmDialog(null, fields, "Enter name & select difficulty", JOptionPane.OK_CANCEL_OPTION); // Prompts user for a player name before starting the game.
+			if(dialogResult == JOptionPane.CANCEL_OPTION)
+				System.exit(0);
+			else if(name.getText().trim().equals("") || name.getText().length() < 3 || name.getText().length() > 15) {
+				JOptionPane.showMessageDialog(null, "Please create a valid name (3-15 characters).");
+				name.setText("");
 			}
-			createDisplay();
-			setVisible(true);
+			else if(lvl.getSelectedIndex() == -1) {
+				JOptionPane.showMessageDialog(null, "Please select a valid level.");
+				lvl.setSelectedIndex(-1);
+			}
 		}
+		currentPlayer = new Player(name.getText());
+		playerList.add(currentPlayer);
+		Integer lNum = Integer.parseInt(lvl.getSelectedItem().toString().substring(lvl.getSelectedItem().toString().length()-1));
+		if (lNum == 1) {
+			String maxInt = JOptionPane.showInputDialog("Please enter the upper bound: ");
+			Integer upperBound = 0;
+			upperBound += upperBound.parseInt(maxInt);
+			currentGame = new OneGame(upperBound);
+		}
+		else
+			currentGame = new OtherGame(lNum);
+		createDisplay();
+		setVisible(true);
 	}
 	public class LvlOneListener implements ActionListener { // Action listener for New Game -> Level 1
 		public void actionPerformed(ActionEvent ae) {
@@ -132,28 +131,34 @@ public class GameGUI extends JFrame {
 		public void actionPerformed(ActionEvent ae) {
 			name.setText("");
 			lvl.setSelectedIndex(-1);
-			int dialogResult = JOptionPane.showConfirmDialog(null, fields, "Enter name & select difficulty", JOptionPane.OK_CANCEL_OPTION); // Prompts user for a player name before starting the game.
-			if(dialogResult == JOptionPane.CANCEL_OPTION)
-				System.exit(0);
-			else {
-				currentPlayer = new Player(name.getText());
-				playerLbl.setText(currentPlayer.getPlayerName());
-				playerList.add(currentPlayer);
-				Integer lNum = Integer.parseInt(lvl.getSelectedItem().toString().substring(lvl.getSelectedItem().toString().length()-1));
-				
-				if (lNum == 1 ) {
-					String maxInt = JOptionPane.showInputDialog("Please enter the upper bound: ");
-					Integer upperBound = 0;
-					upperBound += upperBound.parseInt(maxInt);
-					currentGame = new OneGame(upperBound);
-				}else{
-					currentGame = new OtherGame(lNum);
+			while(name.getText().trim().equals("") || name.getText().length() < 3 || name.getText().length() > 15 || lvl.getSelectedIndex() == -1) {
+				int dialogResult = JOptionPane.showConfirmDialog(null, fields, "Enter name & select difficulty", JOptionPane.OK_CANCEL_OPTION); // Prompts user for a player name before starting the game.
+				if(dialogResult == JOptionPane.CANCEL_OPTION)
+					System.exit(0);
+				else if(name.getText().trim().equals("") || name.getText().length() < 3 || name.getText().length() > 15) {
+					JOptionPane.showMessageDialog(null, "Please create a valid name (3-15 characters).");
+					name.setText("");
 				}
-				levelLbl.setText("Level " + currentGame.getLevel());
-			
-				guesses.clear();
-				clues.clear();
+				else if(lvl.getSelectedIndex() == -1) {
+					JOptionPane.showMessageDialog(null, "Please select a valid level.");
+					lvl.setSelectedIndex(-1);
+				}
 			}
+			currentPlayer = new Player(name.getText());
+			playerLbl.setText(currentPlayer.getPlayerName());
+			playerList.add(currentPlayer);
+			Integer lNum = Integer.parseInt(lvl.getSelectedItem().toString().substring(lvl.getSelectedItem().toString().length()-1));				
+			if (lNum == 1) {
+				String maxInt = JOptionPane.showInputDialog("Please enter the upper bound: ");
+				Integer upperBound = 0;
+				upperBound += upperBound.parseInt(maxInt);
+				currentGame = new OneGame(upperBound);
+			}
+			else
+				currentGame = new OtherGame(lNum);
+			levelLbl.setText("Level " + currentGame.getLevel());			
+			guesses.clear();
+			clues.clear();
 		}
 	}
 	
@@ -249,6 +254,7 @@ public class GameGUI extends JFrame {
 		menuNew.add(newPlayer);
 		newPlayer.addActionListener(new NewPlayerListener());
 		JMenuItem clear = new JMenuItem("Clear");
+		clear.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.ALT_MASK));
 		clear.addActionListener(new ClearListener());
 		menuNew.add(clear);
 
@@ -299,6 +305,7 @@ public class GameGUI extends JFrame {
 		
 		guesses = new DefaultListModel<String>(); // Actual list that guesses are stored in.
 		JList<String> listGuesses = new JList<String>(guesses); // listGuesses component contains the guesses list model.
+		listGuesses.setFont(new Font("Arial", Font.BOLD, 16));
 		JScrollPane guessPane = new JScrollPane(listGuesses); // guessPane contains the JList and allows scroll-ability.
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.ipady = 300; // Sets height value constraint
@@ -308,6 +315,7 @@ public class GameGUI extends JFrame {
 
 		clues = new DefaultListModel<String>();
 		JList<String> listClues = new JList<String>(clues);
+		listClues.setFont(new Font("Arial", Font.BOLD, 16));
 		JScrollPane cluePane = new JScrollPane(listClues);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;

@@ -11,8 +11,10 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 
 public class StatsGUI extends JFrame {
-	
-	
+	private static final long serialVersionUID = -8840314671041749046L;
+
+
+
 	public StatsGUI(String title) {
 		
 		super(title);
@@ -25,10 +27,7 @@ public class StatsGUI extends JFrame {
 	
 	
 	public void addPanels() {
-		
-
-		
-		
+	
 		DefaultListModel<String> stats;
 		stats = new DefaultListModel<String>();
 		JScrollPane scroll = new JScrollPane();
