@@ -7,6 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
@@ -40,6 +43,8 @@ public class GameGUI extends JFrame {
 	public JLabel levelLbl;
 	public JCheckBoxMenuItem theme;
 	
+	public Statistics statsOBJ;
+	
 	public JTextField name = new JTextField();
 	public String[] levels = {"Level 1", "Level 2", "Level 3", "Level 4", "Level 5"};
 	public JComboBox<String> lvl = new JComboBox<String>(levels);
@@ -49,21 +54,22 @@ public class GameGUI extends JFrame {
 	public Player currentPlayer;
 	public ArrayList<Player> playerList;
 
-	public GameGUI(String title) {
+	public GameGUI(String title) throws IOException {
 		super(title);
+		statsOBJ = new Statistics();
 		setSize(500, 500);
 		setLocation(500, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		playerList = new ArrayList<Player>();
+		playerList = statsOBJ.GetPlayerList();
 		
 		lvl.setSelectedIndex(-1);
 		int dialogResult = JOptionPane.showConfirmDialog(null, fields, "Enter name & select difficulty", JOptionPane.OK_CANCEL_OPTION); // Prompts user for a player name before starting the game.
 		if(dialogResult == JOptionPane.CANCEL_OPTION)
 			System.exit(0);
 		else {
-			currentPlayer = new Player(name.getText());
-			playerList.add(currentPlayer);
+			currentPlayer = statsOBJ.NewPlayer(name.getText());
+//			playerList.add(currentPlayer);
 			Integer lNum = Integer.parseInt(lvl.getSelectedItem().toString().substring(lvl.getSelectedItem().toString().length()-1));
 			if (lNum == 1) {
 				String maxInt = JOptionPane.showInputDialog("Please enter the upper bound: ");
@@ -79,6 +85,9 @@ public class GameGUI extends JFrame {
 	}
 	public class LvlOneListener implements ActionListener { // Action listener for New Game -> Level 1
 		public void actionPerformed(ActionEvent ae) {
+			
+//			currentPlayer.AddLevel(currentGame.getLevel());
+			
 			String maxInt = JOptionPane.showInputDialog("Please enter the upper bound: ");
 			Integer upperBound = 0;
 			upperBound += upperBound.parseInt(maxInt);
@@ -122,7 +131,7 @@ public class GameGUI extends JFrame {
 	
 	public class StatsListener implements ActionListener{
 		public void actionPerformed(ActionEvent ae) {
-			StatsGUI statsDisplay = new StatsGUI("Statistics");
+			StatsGUI statsDisplay = new StatsGUI("Statistics", statsOBJ.MasterPlayerList, currentPlayer);
 			statsDisplay.addPanels();
 		}
 		
@@ -136,9 +145,10 @@ public class GameGUI extends JFrame {
 			if(dialogResult == JOptionPane.CANCEL_OPTION)
 				System.exit(0);
 			else {
-				currentPlayer = new Player(name.getText());
+				statsOBJ.CloseCurrentPlayer( currentPlayer );
+				currentPlayer = statsOBJ.NewPlayer( name.getText() );
 				playerLbl.setText(currentPlayer.getPlayerName());
-				playerList.add(currentPlayer);
+				//playerList.add(currentPlayer);
 				Integer lNum = Integer.parseInt(lvl.getSelectedItem().toString().substring(lvl.getSelectedItem().toString().length()-1));
 				
 				if (lNum == 1 ) {
@@ -195,7 +205,11 @@ public class GameGUI extends JFrame {
 							}
 						}
 					}
-					currentPlayer.levelsList.add(new Levels(currentLevel));
+					
+					Levels newLevel = new Levels(currentLevel);
+					newLevel.addStats(currentGame.getGuesses());
+					currentPlayer.levelsList.add(newLevel);
+					
 				}
 				} catch (Exception NumberFormatException){
 					JOptionPane.showMessageDialog(null, "Please enter the guess in the format #,#,.,.,.   ");
@@ -225,7 +239,9 @@ public class GameGUI extends JFrame {
 							}
 						}
 					}
-					currentPlayer.levelsList.add(new Levels(1));
+					Levels newlvl = new Levels(1);
+					newlvl.addStats(currentGame.getGuesses());
+					currentPlayer.levelsList.add(newlvl);
 			}
 				}catch(Exception NumberFormatException) {
 					JOptionPane.showMessageDialog(null, "Please enter valid input");
@@ -234,6 +250,8 @@ public class GameGUI extends JFrame {
 			textGuess.setText("");
 		}
 	}
+
+	
 	public void createDisplay() {
 		
 		JMenuBar mainMenuBar = new JMenuBar(); // Creates the menu bar which houses all menu options.
@@ -350,12 +368,26 @@ public class GameGUI extends JFrame {
 
 		stats.addActionListener(new StatsListener());
 		
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				statsOBJ.CloseCurrentPlayer(currentPlayer);
+				currentPlayer = statsOBJ.NewPlayer( "Dumbo" );
+				try {
+					statsOBJ.SaveStatistics();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
+		});
+		
 		
 		add(gameDisplay);
 		setJMenuBar(mainMenuBar);
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		GameGUI ui = new GameGUI("Numbers Game");
 	}
 

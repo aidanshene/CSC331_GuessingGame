@@ -15,7 +15,9 @@ public class Levels {
 	}
 	
 	public void addStats(int guesses) {
+		System.out.println(guesses);
 		this.scores.add(guesses);
+		System.out.println(scores.size());
 	}
 	
 	public void getLowestScore() {
