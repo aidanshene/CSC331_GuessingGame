@@ -11,6 +11,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -18,7 +19,7 @@ import javax.swing.JScrollPane;
 
 public class StatsGUI extends JFrame {
 	private static final long serialVersionUID = -6194704301528590576L;
-	
+
 	ArrayList<Player> playerList;
 	Player currentPlayer;
 
@@ -32,9 +33,10 @@ public class StatsGUI extends JFrame {
 	JRadioButton level5 = new JRadioButton("Level 5");
 
 
-	DefaultListModel<String> stats= new DefaultListModel<String>();
+	DefaultListModel<String> stats = new DefaultListModel<String>();
 	JScrollPane scroll = new JScrollPane();
 	JList<String> statsList = new JList<String>(stats);
+
 
 	public StatsGUI(String title, ArrayList<Player> playersList, Player currentPlayer) {
 
@@ -58,7 +60,7 @@ public class StatsGUI extends JFrame {
 
 			System.out.println("Action Listnener engaged");
 			System.out.println(level1.isSelected());
-			
+
 			JRadioButton check = getSelectedRadioButton(midBG);
 			System.out.println(check.getText());
 			if(check.getText().equals(level1.getText())) {
@@ -74,6 +76,7 @@ public class StatsGUI extends JFrame {
 					System.out.println(stringArray[1]);
 					stats.addElement(stringArray[1]);
 				}
+
 
 			}else if (check.getText().equals(level2.getText())) {
 				String number = level2.getText().substring(6,7);
@@ -111,7 +114,7 @@ public class StatsGUI extends JFrame {
 				break;
 		}
 		return radButton;
-	
+
 	}
 
 	public void addPanels() {
