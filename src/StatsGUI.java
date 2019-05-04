@@ -220,14 +220,13 @@ public class StatsGUI extends JFrame {
 					for(Player p : playerList) {
 						for(Levels lvl : p.levelsList) {
 							if(lvl.level == 1) {
-								System.out.println(p.getPlayerName());
-								if(lvl.highestScore > globalHighest) {
+								if(lvl.getHighestScore() > globalHighest) {
 									globalHighest = lvl.highestScore;
 									highestUser = p.getPlayerName();
 									System.out.println("player name inside for each" + p.getPlayerName());
 									System.out.println("new high score" + lvl.highestScore);
 								}
-								if(lvl.lowestScore < globalLowest) {
+								if(lvl.getLowestScore() < globalLowest) {
 									globalLowest = lvl.lowestScore;
 									lowestUser = p.getPlayerName();
 								}
@@ -250,9 +249,6 @@ public class StatsGUI extends JFrame {
 					stats.addElement("Lowest Average: \n" + lowestAvgUser + " - " + globalLowestAverage);
 					stats.addElement("Highest Average: \n" + highestAvgUser + " - "+ globalHighestAverage);
 					
-					
-					
-
 				}else if (levelCheck.getText().equals(level2.getText())) {
 					
 					stats.clear();
@@ -277,11 +273,11 @@ public class StatsGUI extends JFrame {
 					for(Player p : playerList) {
 						for(Levels lvl : p.levelsList) {
 							if(lvl.level == 2) {
-								if(lvl.highestScore > globalHighest) {
+								if(lvl.getHighestScore() > globalHighest) {
 									globalHighest = lvl.highestScore;
 									highestUser = p.getPlayerName();
 								}
-								if(lvl.lowestScore < globalLowest) {
+								if(lvl.getLowestScore() < globalLowest) {
 									globalLowest = lvl.lowestScore;
 									lowestUser = p.getPlayerName();
 								}
@@ -328,11 +324,11 @@ public class StatsGUI extends JFrame {
 					for(Player p : playerList) {
 						for(Levels lvl : p.levelsList) {
 							if(lvl.level == 3) {
-								if(lvl.highestScore > globalHighest) {
+								if(lvl.getHighestScore() > globalHighest) {
 									globalHighest = lvl.highestScore;
 									highestUser = p.getPlayerName();
 								}
-								if(lvl.lowestScore < globalLowest) {
+								if(lvl.getLowestScore() < globalLowest) {
 									globalLowest = lvl.lowestScore;
 									lowestUser = p.getPlayerName();
 								}
@@ -379,11 +375,11 @@ public class StatsGUI extends JFrame {
 					for(Player p : playerList) {
 						for(Levels lvl : p.levelsList) {
 							if(lvl.level == 4) {
-								if(lvl.highestScore > globalHighest) {
+								if(lvl.getHighestScore() > globalHighest) {
 									globalHighest = lvl.highestScore;
 									highestUser = p.getPlayerName();
 								}
-								if(lvl.lowestScore < globalLowest) {
+								if(lvl.getLowestScore() < globalLowest) {
 									globalLowest = lvl.lowestScore;
 									lowestUser = p.getPlayerName();
 								}
@@ -430,11 +426,11 @@ public class StatsGUI extends JFrame {
 					for(Player p : playerList) {
 						for(Levels lvl : p.levelsList) {
 							if(lvl.level == 5) {
-								if(lvl.highestScore > globalHighest) {
+								if(lvl.getHighestScore() > globalHighest) {
 									globalHighest = lvl.highestScore;
 									highestUser = p.getPlayerName();
 								}
-								if(lvl.lowestScore < globalLowest) {
+								if(lvl.getLowestScore() < globalLowest) {
 									globalLowest = lvl.lowestScore;
 									lowestUser = p.getPlayerName();
 								}

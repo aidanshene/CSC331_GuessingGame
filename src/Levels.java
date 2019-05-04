@@ -20,21 +20,24 @@ public class Levels {
 		System.out.println(scores.size());
 	}
 	
-	public void getLowestScore() {
+	public int getLowestScore() {
 		
 		for (Integer i : scores) {
 			if(i < lowestScore) {
 				lowestScore = i;
 			}
 		}
+		
+		return lowestScore;
 	}
 	
-	public void getHighestScore() {
+	public int getHighestScore() {
 		for(Integer i : scores) {
 			if(i > highestScore) {
 				highestScore =i;
 			}
 		}
+		return highestScore;
 	}
 	
 	public double getAverage() {
