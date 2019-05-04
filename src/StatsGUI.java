@@ -21,6 +21,8 @@ public class StatsGUI extends JFrame {
 	private static final long serialVersionUID = -6194704301528590576L;
 	
 	
+	boolean gameLevelPlayed;
+	
 	int globalHighest = 0;
 	String highestUser= "";
 	int globalLowest = 100;
@@ -75,7 +77,7 @@ public class StatsGUI extends JFrame {
 			
 			if(check.getText().equals(currentUserButt.getText())) {
 
-			ScoreKeeper currentPlayerScoreKeeper = new ScoreKeeper(currentPlayer);
+//			ScoreKeeper currentPlayerScoreKeeper = new ScoreKeeper(currentPlayer);
 
 			System.out.println("Action Listnener engaged");
 			System.out.println(level1.isSelected());
@@ -199,6 +201,9 @@ public class StatsGUI extends JFrame {
 				
 				if(levelCheck.getText().equals(level1.getText())) {
 					
+					
+					gameLevelPlayed = false;
+					
 					stats.clear();
 					
 //					globalHighest = 0;
@@ -220,6 +225,7 @@ public class StatsGUI extends JFrame {
 					for(Player p : playerList) {
 						for(Levels lvl : p.levelsList) {
 							if(lvl.level == 1) {
+								gameLevelPlayed = true;
 								if(lvl.getHighestScore() > globalHighest) {
 									globalHighest = lvl.highestScore;
 									highestUser = p.getPlayerName();
@@ -242,16 +248,20 @@ public class StatsGUI extends JFrame {
 							}
 						}
 					}
+					if (gameLevelPlayed = true){
+						stats.addElement("Level 1");
+						stats.addElement("Worst Score: \n" + highestUser +" - "+ globalHighest);
+						stats.addElement("Best Score: \n" + lowestUser + " - " + globalLowest);
+						stats.addElement("Lowest Average: \n" + lowestAvgUser + " - " + globalLowestAverage);
+						stats.addElement("Highest Average: \n" + highestAvgUser + " - "+ globalHighestAverage);
+					}
 					
-					stats.addElement("Level 1");
-					stats.addElement("Worst Score: \n" + highestUser +" - "+ globalHighest);
-					stats.addElement("Best Score: \n" + lowestUser + " - " + globalLowest);
-					stats.addElement("Lowest Average: \n" + lowestAvgUser + " - " + globalLowestAverage);
-					stats.addElement("Highest Average: \n" + highestAvgUser + " - "+ globalHighestAverage);
 					
 				}else if (levelCheck.getText().equals(level2.getText())) {
 					
 					stats.clear();
+					
+					gameLevelPlayed = false;
 					
 					globalHighest = 0;
 					highestUser= "";
@@ -273,6 +283,7 @@ public class StatsGUI extends JFrame {
 					for(Player p : playerList) {
 						for(Levels lvl : p.levelsList) {
 							if(lvl.level == 2) {
+								gameLevelPlayed = true;
 								if(lvl.getHighestScore() > globalHighest) {
 									globalHighest = lvl.highestScore;
 									highestUser = p.getPlayerName();
@@ -294,15 +305,19 @@ public class StatsGUI extends JFrame {
 						}
 					}
 					
+					if (gameLevelPlayed != true) {
 					stats.addElement("Level 2");
 					stats.addElement("Worst Score: \n" + highestUser +" - "+ globalHighest);
 					stats.addElement("Best Score: \n" + lowestUser + " - " + globalLowest);
 					stats.addElement("Lowest Average: \n" + lowestAvgUser + " - " + globalLowestAverage);
 					stats.addElement("Highest Average: \n" + highestAvgUser + " - "+ globalHighestAverage);
-				
+					}
 					
 				}else if(levelCheck.getText().equals(level3.getText())) {
 					stats.clear();
+					
+					
+					gameLevelPlayed = false;
 					
 					globalHighest = 0;
 					highestUser= "";
@@ -324,6 +339,7 @@ public class StatsGUI extends JFrame {
 					for(Player p : playerList) {
 						for(Levels lvl : p.levelsList) {
 							if(lvl.level == 3) {
+								gameLevelPlayed = true;
 								if(lvl.getHighestScore() > globalHighest) {
 									globalHighest = lvl.highestScore;
 									highestUser = p.getPlayerName();
@@ -344,16 +360,18 @@ public class StatsGUI extends JFrame {
 							}
 						}
 					}
-					
+					if (gameLevelPlayed != true) {
 					stats.addElement("Level 3");
 					stats.addElement("Worst Score: \n" + highestUser +" - "+ globalHighest);
 					stats.addElement("Best Score: \n" + lowestUser + " - " + globalLowest);
 					stats.addElement("Lowest Average: \n" + lowestAvgUser + " - " + globalLowestAverage);
 					stats.addElement("Highest Average: \n" + highestAvgUser + " - "+ globalHighestAverage);
-					
+					}
 					
 				}else if (levelCheck.getText().equals(level4.getText())) {
 					stats.clear();
+					
+					gameLevelPlayed = false;
 					
 					globalHighest = 0;
 					highestUser= "";
@@ -375,6 +393,7 @@ public class StatsGUI extends JFrame {
 					for(Player p : playerList) {
 						for(Levels lvl : p.levelsList) {
 							if(lvl.level == 4) {
+								gameLevelPlayed = true;
 								if(lvl.getHighestScore() > globalHighest) {
 									globalHighest = lvl.highestScore;
 									highestUser = p.getPlayerName();
@@ -396,15 +415,18 @@ public class StatsGUI extends JFrame {
 						}
 					}
 					
+					if (gameLevelPlayed != true) {
 					stats.addElement("Level 4");
 					stats.addElement("Worst Score: \n" + highestUser +" - "+ globalHighest);
 					stats.addElement("Best Score: \n" + lowestUser + " - " + globalLowest);
 					stats.addElement("Lowest Average: \n" + lowestAvgUser + " - " + globalLowestAverage);
 					stats.addElement("Highest Average: \n" + highestAvgUser + " - "+ globalHighestAverage);
-					
+					}
 					
 				}else if (levelCheck.getText().equals(level5.getText())) {
 					stats.clear();
+					
+					gameLevelPlayed = false;
 					
 					globalHighest = 0;
 					highestUser= "";
@@ -414,18 +436,15 @@ public class StatsGUI extends JFrame {
 					lowestAvgUser= "";
 					globalHighestAverage = 0.0;
 					highestAvgUser= "";
-
-					
-					
+										
 					String number = level5.getText().substring(6,7);
 					Integer num=0;
 					num += num.parseInt(number);
 					
-					
-					
 					for(Player p : playerList) {
 						for(Levels lvl : p.levelsList) {
 							if(lvl.level == 5) {
+								gameLevelPlayed = true;
 								if(lvl.getHighestScore() > globalHighest) {
 									globalHighest = lvl.highestScore;
 									highestUser = p.getPlayerName();
@@ -446,15 +465,14 @@ public class StatsGUI extends JFrame {
 							}
 						}
 					}
-					
+					if (gameLevelPlayed = true) {
 					stats.addElement("Level 5");
 					stats.addElement("Worst Score: \n" + highestUser +" - "+ globalHighest);
 					stats.addElement("Best Score: \n" + lowestUser + " - " + globalLowest);
 					stats.addElement("Lowest Average: \n" + lowestAvgUser + " - " + globalLowestAverage);
 					stats.addElement("Highest Average: \n" + highestAvgUser + " - "+ globalHighestAverage);
-					
+					}
 				}
-				
 			}
 
 
